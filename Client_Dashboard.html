@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrintPro Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">)
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f5f7;
+        }
+        .topbar {
+            background-color: #2B307E;
+        }
+        .card-btn {
+            background-color: #3A3B7B;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border-radius: 0.75rem;
+            width: 75%;
+        }
+        .card-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .btn-orange {
+            background-color: #FF7800;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-orange:hover {
+            background-color: #FF7800;
+            color: white;
+        }
+        .search-input {
+            border-radius: 50px;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            outline: none;
+            height: 40px;
+            width: 100%;
+        }
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        .filter-btn {
+            height: 40px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 12px 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .filter-btn:hover {
+            background: #f8f9fa;
+        }
+        .template-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        hr {
+            border-top: 1px solid #cbd5e0;
+            opacity: 1;
+        }
+        .action-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .topbar .flex {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+<div class="topbar text-white px-4 px-md-5 py-3 d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-3">
+       <img src="C:\Users\Dave\Downloads\logo 1.png" alt="PrintPro Logo" style="width: 24px; height: 24px;">
+        <h1 class="fs-5 fw-normal mb-0">PrintPro</h1>
+    </div>
+    <div class="d-flex gap-4 fs-5">
+        <img src="C:\Users\Dave\Downloads\shopping_cart_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cart" style="width: 24px; height: 24px; cursor: pointer;">
+        <img src="C:\Users\Dave\Downloads\menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Menu" style="width: 24px; height: 24px; cursor: pointer;">
+    </div>
+</div>
+
+    <!-- Logout Button-->
+<div class="d-flex justify-content-end px-4 px-md-5 mt-3">
+    <div class="action-box px-4 py-2 d-flex align-items-center gap-2 text-danger" style="background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; width: fit-content;">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span class="small">LOGOUT</span>
+    </div>
+</div>
+
+    <!-- Greeting -->
+    <div class="px-4 px-md-5 mt-4">
+        <h2 class="text-primary fw-bold" style="color: #0088FF !important; font-size: 1.75rem;">Hi, John Doe.</h2>
+    </div>
+
+    <!-- Action Cards (My Orders, Order History, My Profile) -->
+    <div class="px-4 px-md-5 mt-4">
+        <div class="row" style="margin-right: 150px; margin-left: 150px;">
+            <div class="col-md-4">
+                <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
+                    <i class="fa-solid fa-box fs-2"></i>
+                    <span class="fs-7 fw-small">My Orders</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
+                    <i class="fa-solid fa-globe fs-2"></i>
+                    <span class="fs-7 fw-small">Order History</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
+                    <i class="fa-regular fa-user fs-2"></i>
+                    <span class="fs-7 fw-small">My Profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider -->
+<div class="px-4 px-md-5 mt-5">
+    <hr style="height: 2px; background-color: #0E0E0E; opacity: 1; border: none;">
+</div>
+
+    <!-- Browse Section -->
+    <div class="px-4 px-md-5 mt-4 pb-5">
+        
+        <h3 class="text-center text-primary fw-bold mb-4" style="color: #0088FF !important;">
+            Browse Product Templates For Your Next Customization
+        </h3>
+
+       <!-- Search + Filter -->
+<div class="d-flex justify-content-center gap-3 mb-5">
+    <div class="search-wrapper" style="flex: 1; max-width: 800px;">
+        <input type="text" placeholder="Search Products..." class="search-input" style="border-width: 1px; border-color: #0E0E0E; border-radius: 15px; padding: 6px 15px; font-size: 14px;">
+        <i class="fa-solid fa-magnifying-glass search-icon" style="font-size: 12px;"></i>
+    </div>
+    <button class="filter-btn" style="border-width: 1px; border-color: #0E0E0E; border-radius: 15px; padding: 6px 12px;">
+        <i class="fa-solid fa-sliders" style="font-size: 14px;"></i>
+    </button>
+</div>
+
+        <!-- Templates Grid (Bootstrap Cards) -->
+        <div class="row g-4">
+            <!-- Flyers -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?flyer" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Flyers</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+            <!-- Postcards -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?postcard" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Postcards</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+            <!-- Posters -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?poster" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Posters</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+            <!-- Business Cards -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?business-card" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Business Cards</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+            <!-- Brochures -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?brochure" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Brochures</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+            <!-- Invitations -->
+            <div class="col-md-4">
+                <div class="template-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x300/?birthday-card" class="template-img mb-3">
+                    <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Invitations</h4>
+                    <button class="btn-orange">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-5r8N5OWM6U+qXpDoZEqX4OwGqRjUjQyE9pZyA+6Fhpc5+6k0lEew1nFwFmQ2I0i" crossorigin="anonymous"></script>
+</body>
+</html>

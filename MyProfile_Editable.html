@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - PrintPro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    
+    
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">)
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f5f7;
+        }
+        .topbar {
+            background-color: #2B307E;
+        }
+        .profile-card {
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 12px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-field {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 4px 12px;
+            width: 95%;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: #2B307E;
+        }
+        .save-btn {
+            background-color: #15803d;
+            color: white;
+            padding: 8px 30px;
+            border-radius: 7px;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .save-btn:hover {
+            background-color: #166534;
+        }
+        .back-btn {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .back-btn:hover {
+            color: #2B307E;
+        }
+        
+        label {
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .action-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        }
+        
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-info {
+                text-align: center;
+            }
+            .top-controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch !important;
+            }
+            .logout-btn {
+                align-self: center;
+                width: fit-content;
+            }
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="topbar text-white px-4 px-md-5 py-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <h1 class="fs-5 fw-normal mb-0">PrintPro</h1>
+        </div>
+        <div class="d-flex gap-4 fs-5">
+             <img src="C:\Users\Dave\Downloads\shopping_cart_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Cart" style="width: 24px; height: 24px; cursor: pointer;">
+             <img src="C:\Users\Dave\Downloads\menu_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Menu" style="width: 24px; height: 24px; cursor: pointer;">
+        </div>
+    </div>
+
+    <!-- HEADER with Back and Logout -->
+    <div class="px-4 px-md-5 mt-4 top-controls d-flex justify-content-between align-items-center flex-wrap">
+        
+        <div class="back-btn d-flex align-items-center gap-2 text-secondary">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back</span>
+        </div>
+
+        <div></div>
+
+        <div class="action-box px-4 py-2 d-flex align-items-center gap-2 text-danger" style="background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; width: fit-content;">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span class="small">LOGOUT</span>
+    </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="px-4 px-md-5 mt-3">
+        <h2 class="fs-2 fw-bold text-primary" style="color: #0088FF !important;">My Profile</h2>
+    </div>
+
+    <!-- PROFILE INFO - Avatar + Basic Info -->
+    <div class="px-4 px-md-5 mt-4 profile-header d-flex gap-4 align-items-center flex-wrap">
+        
+        <!-- Avatar -->
+        <div class="avatar">
+            <i class="fa-solid fa-user fs-1 text-secondary"></i>
+        </div>
+
+        <!-- Info -->
+        <div class="profile-info">
+            <h3 class="fs-4 fw-bold" style="color: #3A3B7B;">John C. Doe</h3>
+            <p class="mt-2 mb-1 text-secondary" style="color: #0E0E0E;">
+                Occupation: <span class=" fw-bold "style="color: #3A3B7B;">Student</span>
+            </p>
+            <p class="text-secondary" style="color: #0E0E0E;">
+                Email Address: 
+                <span class="fw-bold" style="color: #3A3B7B;">johndoe@outlook.com</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- EDITABLE FORM -->
+    <div class="px-4 px-md-5 mt-4 pb-0">
+        <div class="profile-card p-3 p-md-4"style="border: 1px solid #0E0E0E; position: relative;">
+             <i class="fa-regular fa-pen-to-square" style="position: absolute; top: 15px; right: 15px; color: #0E0E0E; cursor: pointer; font-size: 1.2rem;"></i>
+            
+            <!-- Form Row 1: First Name, Middle Initial, Last Name -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="fw-bold" style="color: #0E0E0E;">First Name</label>
+                    <input class="input-field" value="John">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold"style="color: #0E0E0E;">Middle Initial</label>
+                    <input class="input-field" value="C.">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold"style="color: #0E0E0E;">Last Name</label>
+                    <input class="input-field" value="Doe">
+                </div>
+            </div>
+
+            <!-- Form Row 2: Contact Number, Email, Occupation -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <label class="fw-bold"style="color: #0E0E0E;">Contact Number</label>
+                    <input class="input-field" value="(09) 12345-6789">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold"style="color: #0E0E0E;">Email</label>
+                    <input class="input-field" value="johndoe@outlook.com">
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold"style="color: #0E0E0E;">Occupation</label>
+                    <select class="input-field">
+                        <option selected>Student</option>
+                        <option>Professional</option>
+                        <option>Freelancer</option>
+                        <option>Business Owner</option>
+                    </select>
+                </div>
+            </div>
+
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-5r8N5OWM6U+qXpDoZEqX4OwGqRjUjQyE9pZyA+6Fhpc5+6k0lEew1nFwFmQ2I0i" crossorigin="anonymous"></script>
+</body>
+</html>
