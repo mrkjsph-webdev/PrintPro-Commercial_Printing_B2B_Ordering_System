@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3b3b8f;
+}
+
+/* Back button */
+.back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.container {
+  background: #e6e6e6;
+  padding: 30px;
+  width: 350px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.container h2 {
+  color: #2d2d8f;
+  margin-bottom: 5px;
+}
+
+.container p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+.show-password {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.options a {
+  text-decoration: none;
+  color: #2d2d8f;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: orange;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darkorange;
+}
+
+.register {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register a {
+  color: #2d2d8f;
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
