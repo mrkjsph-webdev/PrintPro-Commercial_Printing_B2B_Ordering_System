@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #2f2f7e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link.active {
+    background: #4a6cf7;
+    color: white;
+    border-radius: 6px;
+}
+
+.content {
+    background: #f5f6fa;
+}
+
+.search-bar input {
+    border-radius: 20px;
+}
+
+.orders-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.order-item {
+    border: 1px dashed #4a6cf7;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.order-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
+}
+
+.status {
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.processing {
+    color: blue;
+}
+
+.pending {
+    color: orange;
+}
