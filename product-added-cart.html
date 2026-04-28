@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Added</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+      .topbar {
+        background-color: #1e3a8a;
+        color: white;
+        padding: 0.8rem 1rem;
+      }
+      .topbar .brand {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+      .topbar .profile-box {
+        background-color: white;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 0.75rem;
+      }
+      .topbar .profile-box .profile-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .topbar .profile-box .logout-btn {
+        margin-left: 0.75rem;
+        font-size: 0.78rem;
+        padding: 0.3rem 0.6rem;
+        border-color: #ef4444;
+        color: #ef4444;
+      }
+      .page-body {
+        padding: 4rem 1rem;
+      }
+      .card-panel {
+        border-radius: 1.5rem;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+        background-color: white;
+      }
+      .status-icon {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #34d399;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.75rem;
+      }
+      .status-icon svg {
+        width: 70px;
+        height: 70px;
+        fill: white;
+      }
+      .status-title {
+        font-size: 1.9rem;
+        font-weight: 700;
+      }
+      .status-text {
+        max-width: 660px;
+        margin: 1rem auto 2rem;
+        color: #475569;
+      }
+      .status-text a {
+        color: #3730a3;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .status-text a:hover {
+        text-decoration: underline;
+      }
+      .btn-primary-custom {
+        width: 240px;
+        border-radius: 0.85rem;
+        padding: 0.9rem 1.25rem;
+        font-size: 1rem;
+      }
+      .btn-secondary-custom {
+        width: 240px;
+        border-radius: 0.85rem;
+        padding: 0.9rem 1.25rem;
+        font-size: 1rem;
+      }
+      .btn-secondary-custom {
+        background-color: #f97316;
+        border-color: #f97316;
+      }
+      .btn-secondary-custom:hover {
+        background-color: #ea580c;
+        border-color: #ea580c;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container d-flex align-items-center justify-content-between">
+        <div class="brand">PrintPro</div>
+        <div class="profile-box">
+          <div>
+            <div class="profile-label">PROFILE</div>
+          </div>
+          <button class="btn btn-outline-danger btn-sm logout-btn">LOGOUT</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <div class="container">
+        <div class="card-panel p-5 text-center mx-auto" style="max-width: 720px;">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9.00019 16.2L4.80019 12L3.66687 13.1333L9.00019 18.4666L21.0002 6.46661L19.8669 5.33328L9.00019 16.2Z" />
+            </svg>
+          </div>
+          <h1 class="status-title mb-3">Product Added to Cart</h1>
+          <p class="status-text mx-auto">Check your <a href="#">Cart</a> to view your products or add more customized products before placing your order. Whenever you're ready, just check it out.</p>
+          <div class="d-flex flex-column align-items-center gap-3 mt-4">
+            <a href="#" class="btn btn-primary btn-lg btn-primary-custom">View My Cart</a>
+            <a href="#" class="btn btn-secondary btn-lg btn-secondary-custom">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-3pVhceE6RecxFaVDYGtJjYQlZb1GDwfI2fK7Axn5BkF1Zb7L4d2FV6EQGnp8SxnQ" crossorigin="anonymous"></script>
+  </body>
+</html>
