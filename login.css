@@ -110,3 +110,20 @@ button:hover {
 .register a:hover {
   text-decoration: underline;
 }
+
+/* Hide error by default */
+.invalid-feedback {
+  display: none;
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Show error only when invalid */
+.was-validated input:invalid~.invalid-feedback {
+  display: block;
+}
+
+.was-validated input:invalid {
+  border-color: #dc3545;
+}
