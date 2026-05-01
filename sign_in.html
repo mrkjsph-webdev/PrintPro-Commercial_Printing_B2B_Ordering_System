@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="sign-in.css">
+</head>
+<body>
+    <div class="container">
+        <div class="register-card">
+            <h2>CREATE AN ACCOUNT</h2>
+            <p>Get in touch with us to start browsing.</p>
+            <form action="#" method="post">
+                <div class="form-row">
+                    <input type="text" placeholder="First Name" name="firstName" required>
+                    <input type="text" placeholder="Middle Initial" name="middleInitial" maxlength="1">
+                    <input type="text" placeholder="Last Name" name="lastName" required>
+                </div>
+                <div class="form-row">
+                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="text" placeholder="Contact Number" name="contact" required>
+                </div>
+                <div class="form-row">
+                    <input id="password" type="password" placeholder="Password" name="password" required>
+                    <select name="occupation" required>
+                        <option value="" disabled selected>Select Occupation</option>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="engineer">Engineer</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" name="showPassword" id="showPassword">
+                    <label for="showPassword">Show Password</label>
+                </div>
+                <button type="submit" onclick="window.location.href='login.html'">REGISTER</button>
+            </form>
+        </div>
+        <script>
+            const passwordInput = document.getElementById('password');
+            const showPassword = document.getElementById('showPassword');
+            showPassword.addEventListener('change', function () {
+                passwordInput.type = this.checked ? 'text' : 'password';
+            });
+        </script>
+    </div>
+</body>
+
+</html>

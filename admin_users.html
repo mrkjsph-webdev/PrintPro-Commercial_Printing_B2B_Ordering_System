@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users | PrintPro Admin</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mina:wght@700&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+        }
+
+        /* FIXED SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #2c2e7a;
+            color: white;
+            position: fixed;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Mina', sans-serif;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px;
+        }
+
+        .nav-link {
+            color: white;
+            opacity: 0.7;
+            margin-bottom: 12px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: #0084ff;
+            opacity: 1;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+        }
+
+        /* DDITO NAMAN CONTENT AREA */
+        .main {
+            margin-left: 280px;
+            width: 100%;
+            padding: 50px;
+        }
+
+        /* SEARCH & FILTER AREA */
+        .filter-section {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 12px 20px;
+            transition: 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #0084ff;
+            box-shadow: none;
+        }
+
+        /* PARA SA USER CARDS */
+        .user-card {
+            background: white;
+            border: 2px dashed #0084ff;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            transform: scale(1.01);
+            background: #f8fbff;
+            border-style: solid;
+        }
+
+        .avatar-box {
+            width: 70px;
+            height: 70px;
+            background: #eef2ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c2e7a;
+        }
+
+        .btn-view {
+            background: #0084ff;
+            color: white;
+            border-radius: 10px;
+            padding: 8px 25px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-view:hover {
+            background: #0069cc;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #ff4d4f;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #d9363e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <img src="images/logo.png" width="35" alt="Logo"> PrintPro
+        </div>
+
+        <nav class="nav flex-column">
+            <a href="admin_dash.html" class="nav-link">
+                <span class="material-symbols-outlined">home</span> Dashboard
+            </a>
+            <a href="admin_users.html" class="nav-link active">
+                <span class="material-symbols-outlined">person</span> Users
+            </a>
+            <a href="admin_orders.html" class="nav-link">
+                <span class="material-symbols-outlined">shopping_cart</span> Orders
+            </a>
+            <a href="admin_inventory.html" class="nav-link">
+                <span class="material-symbols-outlined">inventory_2</span> Inventory
+            </a>
+            <a href="analytics.html" class="nav-link">
+                <span class="material-symbols-outlined">analytics</span> Report and Analytics
+            </a>
+        </nav>
+
+        <div class="mt-auto">
+            <a href="login.html" class="logout-btn">
+                <span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="main">
+        <h2 class="fw-bold mb-4">Users</h2>
+
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 border-2"><span
+                                class="material-symbols-outlined text-muted">search</span></span>
+                        <input type="text" class="form-control border-start-0 border-2 search-input"
+                            placeholder="Search by name, ID or email..." id="userSearch">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <select class="form-select border-2 search-input" id="occupationFilter">
+                        <option value="">All Occupations</option>
+                        <option value="Business Owner">Business Owner</option>
+                        <option value="Freelancer">Freelancer</option>
+                        <option value="Student">Student</option>
+                        <option value="Part-Timer">Part-Timer</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="user-card" data-name="Ryan Cabiling" data-job="Business Owner">
+            <div class="d-flex gap-4 align-items-center">
+                <div class="avatar-box">
+                    <span class="material-symbols-outlined fs-1">person</span>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold">Ryan Cabiling</h5>
+                    <p class="mb-0 text-muted small">Business Owner</p>
+                    <p class="mb-0 text-primary small">ryancabiling@gmail.com</p>
+                </div>
+            </div>
+            <button class="btn-view" onclick="window.location.href='admin_view_cabiling.html'">View Profile</button>
+        </div>
+
+        <div class="user-card" data-name="Tristan Perea" data-job="Part-Timer">
+            <div class="d-flex gap-4 align-items-center">
+                <div class="avatar-box">
+                    <span class="material-symbols-outlined fs-1">person</span>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold">Tristan Perea</h5>
+                    <p class="mb-0 text-muted small">Part-Timer</p>
+                    <p class="mb-0 text-primary small">tristan.perea@yahoo.com</p>
+                </div>
+            </div>
+            <button class="btn-view" onclick="window.location.href='admin_view_perea.html'">View Profile</button>
+        </div>
+
+        <div class="user-card" data-name="John Andrei Caguioa" data-job="Others">
+            <div class="d-flex gap-4 align-items-center">
+                <div class="avatar-box">
+                    <span class="material-symbols-outlined fs-1">person</span>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold">John Andrei Caguioa</h5>
+                    <p class="mb-0 text-muted small">Others</p>
+                    <p class="mb-0 text-primary small">andreicaguioa@outlook.com</p>
+                </div>
+            </div>
+            <button class="btn-view" onclick="window.location.href='admin_view_caguioa.html'">View Profile</button>
+        </div>
+    </div>
+
+
+        <script>
+            const userSearch = document.getElementById('userSearch');
+            const occupationFilter = document.getElementById('occupationFilter');
+
+
+            const filterUsers = () => {
+                const searchValue = userSearch.value.toLowerCase().trim();
+                const filterValue = occupationFilter.value.toLowerCase();
+                const cards = document.querySelectorAll('.user-card');
+
+                cards.forEach(card => {
+                    const name = card.getAttribute('data-name').toLowerCase();
+                    const email = card.getAttribute('data-email')?.toLowerCase() || "";
+                    const job = card.getAttribute('data-job').toLowerCase();
+
+                    // flexible multi-word search
+                    const searchTerms = searchValue.split(" ").filter(term => term);
+
+                    const matchesSearch = searchTerms.every(term =>
+                        name.includes(term) ||
+                        email.includes(term) ||
+                        job.includes(term)
+                    );
+
+                    const matchesFilter =
+                        filterValue === "" ||
+                        job === filterValue;
+
+                    if (matchesSearch && matchesFilter) {
+                        card.style.display = "flex";
+                        card.style.opacity = "1";
+                    } else {
+                        card.style.display = "none";
+                        card.style.opacity = "0";
+                    }
+                });
+            };
+
+            // trigger filtering kuno
+            userSearch.addEventListener('input', filterUsers);
+            occupationFilter.addEventListener('change', filterUsers);
+        </script>
+
+</body>
+
+</html>
