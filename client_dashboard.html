@@ -334,7 +334,7 @@
             <!-- Templates Grid (Bootstrap Cards) -->
             <div class="row g-4">
                 <!-- Flyers -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Flyers">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/flyers.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Flyers</h4>
@@ -342,7 +342,7 @@
                     </div>
                 </div>
                 <!-- Postcards -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Postcards">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/postcards.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Postcards</h4>
@@ -350,7 +350,7 @@
                     </div>
                 </div>
                 <!-- Posters -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Posters">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/posters.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Posters</h4>
@@ -358,7 +358,7 @@
                     </div>
                 </div>
                 <!-- Business Cards -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Business Cards">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/businesscards.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Business Cards</h4>
@@ -366,7 +366,7 @@
                     </div>
                 </div>
                 <!-- Brochures -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Brochures">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/brochure.avif" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Brochures</h4>
@@ -374,21 +374,21 @@
                     </div>
                 </div>
                 <!-- Invitations -->
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Others">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/invitation.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Invitations</h4>
                         <button class="btn-orange" onclick="window.location.href='product_invitations.html'">View Details</button>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Others">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/magazine.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Magazine Covers</h4>
                         <button class="btn-orange" onclick="window.location.href='product_magazines.html'">View Details</button>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 template-item" data-category="Others">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/resume.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Resume</h4>
@@ -398,6 +398,37 @@
             </div>
         </div>
     </main>
+    <!-- SEARCH & FILTER SCRIPT -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("userSearch");
+        const filterSelect = document.getElementById("productFilter");
+        const items = document.querySelectorAll(".template-item");
+        function filterItems() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = filterSelect.value.toLowerCase();
+            let visibleCount = 0;
+            items.forEach(item => {
+                const title = item.querySelector("h4").textContent.toLowerCase();
+                const category = item.getAttribute("data-category").toLowerCase();
+
+                const matchesSearch = title.includes(searchTerm);
+                const matchesFilter =
+                    selectedCategory === "" || category === selectedCategory;
+
+                if (matchesSearch && matchesFilter) {
+                    item.style.display = "";
+                    visibleCount++;
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+        // Events
+        searchInput.addEventListener("input", filterItems);
+        filterSelect.addEventListener("change", filterItems);
+    });
+    </script>
 </body>
 
 </html>
