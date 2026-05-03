@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #2c2f76; /* dark blue background */
+    background-color: #2c2f76;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@ body {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 100%;
     max-width: 560px;
@@ -47,7 +47,6 @@ body {
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
-    align-items: stretch;
 }
 
 .form-row input,
@@ -70,6 +69,7 @@ body {
     justify-content: flex-start;
 }
 
+/* Button */
 button {
     width: 100%;
     padding: 12px;
@@ -86,8 +86,48 @@ button:hover {
     background-color: #e67e00;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
     .form-row {
         flex-direction: column;
     }
+}
+/* Additional styles for error handling */
+.input-error {
+    border: 1px solid #dc3545 !important;
+}
+
+.error-msg {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 4px;
+    display: none;
+    text-align: left;
+}
+
+/* show messages */
+.error-msg.show {
+    display: block;
+}
+
+.form-row>div {
+    flex: 1;
+    min-width: 0;
+}
+
+.form-row>div input,
+.form-row>div select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: stretch;
 }
