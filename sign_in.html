@@ -1,51 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
     <link rel="stylesheet" href="sign-in.css">
 </head>
+
 <body>
     <div class="container">
         <div class="register-card">
             <h2>CREATE AN ACCOUNT</h2>
             <p>Get in touch with us to start browsing.</p>
-            <form action="#" method="post">
+
+            <form action="signup.php" method="post" class="register-form" novalidate>
+
                 <div class="form-row">
-                    <input type="text" placeholder="First Name" name="firstName" required>
-                    <input type="text" placeholder="Middle Initial" name="middleInitial" maxlength="1">
-                    <input type="text" placeholder="Last Name" name="lastName" required>
+                    <div>
+                        <input type="text" name="firstName" id="firstName" placeholder="First Name">
+                        <div class="error-msg" id="firstNameError">First name is required.</div>
+                    </div>
+
+                    <div>
+                        <input type="text" name="middleInitial" placeholder="Middle Initial" maxlength="2">
+                    </div>
+
+                    <div>
+                        <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+                        <div class="error-msg" id="lastNameError">Last name is required.</div>
+                    </div>
                 </div>
+
                 <div class="form-row">
-                    <input type="email" placeholder="Email" name="email" required>
-                    <input type="text" placeholder="Contact Number" name="contact" required>
+                    <div>
+                        <input type="email" name="email" id="email" placeholder="Email">
+                        <div class="error-msg" id="emailError">Please enter a valid email.</div>
+                    </div>
+
+                    <div>
+                        <input type="text" name="contact" id="contact" placeholder="Contact Number">
+                        <div class="error-msg" id="contactError">Contact number is required.</div>
+                    </div>
                 </div>
+
                 <div class="form-row">
-                    <input id="password" type="password" placeholder="Password" name="password" required>
-                    <select name="occupation" required>
-                        <option value="" disabled selected>Select Occupation</option>
-                        <option value="student">Student</option>
-                        <option value="teacher">Teacher</option>
-                        <option value="engineer">Engineer</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <div>
+                        <input type="password" name="password" id="password" placeholder="Password">
+                        <div class="error-msg" id="passwordError">Password is required.</div>
+                    </div>
+
+                    <div>
+                        <select name="occupation" id="occupation">
+                            <option value="" disabled selected>Select Occupation</option>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="engineer">Engineer</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="error-msg" id="occupationError">Please select occupation.</div>
+                    </div>
                 </div>
+
                 <div class="checkbox">
-                    <input type="checkbox" name="showPassword" id="showPassword">
+                    <input type="checkbox" id="showPassword">
                     <label for="showPassword">Show Password</label>
                 </div>
-                <button type="submit" onclick="window.location.href='login.html'">REGISTER</button>
+
+                <button type="submit">REGISTER</button>
+
             </form>
         </div>
-        <script>
-            const passwordInput = document.getElementById('password');
-            const showPassword = document.getElementById('showPassword');
-            showPassword.addEventListener('change', function () {
-                passwordInput.type = this.checked ? 'text' : 'password';
-            });
-        </script>
     </div>
+
+    <script>
+        const form = document.querySelector('.register-form');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let valid = true;
+
+            // fields
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
+            const contact = document.getElementById('contact');
+            const password = document.getElementById('password');
+            const occupation = document.getElementById('occupation');
+
+            // errors
+            const firstNameError = document.getElementById('firstNameError');
+            const lastNameError = document.getElementById('lastNameError');
+            const emailError = document.getElementById('emailError');
+            const contactError = document.getElementById('contactError');
+            const passwordError = document.getElementById('passwordError');
+            const occupationError = document.getElementById('occupationError');
+
+            // reset UI
+            [firstName, lastName, email, contact, password, occupation].forEach(el => {
+                if (el) el.classList.remove('input-error');
+            });
+
+            [firstNameError, lastNameError, emailError, contactError, passwordError, occupationError]
+                .forEach(el => {
+                    if (el) el.classList.remove('show');
+                });
+            // FIRST NAME
+            if (firstName.value.trim() === '') {
+                firstName.classList.add('input-error');
+                firstNameError.classList.add('show');
+                valid = false;
+            }
+
+            // LAST NAME
+            if (lastName.value.trim() === '') {
+                lastName.classList.add('input-error');
+                lastNameError.classList.add('show');
+                valid = false;
+            }
+            // EMAIL
+            if (!email.value.includes('@')) {
+                email.classList.add('input-error');
+                emailError.classList.add('show');
+                valid = false;
+            }
+
+            // CONTACT
+            if (contact.value.trim() === '') {
+                contact.classList.add('input-error');
+                contactError.classList.add('show');
+                valid = false;
+            }
+
+            // PASSWORD
+            if (password.value.trim() === '') {
+                password.classList.add('input-error');
+                passwordError.classList.add('show');
+                valid = false;
+            }
+
+            // OCCUPATION
+            if (!occupation.value) {
+                occupation.classList.add('input-error');
+                occupationError.classList.add('show');
+                valid = false;
+            }
+
+            // SUCCESS
+            if (valid) {
+                window.location.href = "login.html";
+            }
+        });
+        const passwordInput = document.getElementById('password');
+        const showPassword = document.getElementById('showPassword');
+
+        showPassword.addEventListener('change', function () {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
+    </script>
+
 </body>
 
 </html>
