@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mina:wght@400;700&display=swap');
+
+        @media screen and (max-width: 600px) {
+
+            /* Responsive Style for Navigation Bar */
+            nav.navigation ul,
+            li,
+            li.list {
+                float: none;
+            }
+
+            /* Responsive Style for Main Contents */
+            .cart-container,
+            .cart-items,
+            .order-summary {
+                flex-direction: column;
+                float: none;
+            }
+
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+
+        nav.navigation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 55px;
+            width: 100%;
+            z-index: 1000;
+            background-color: #2B307E;
+        }
+
+        body {
+            padding-top: 55px;
+            /* equal to nav height so content isn’t hidden */
+        }
+
+        nav ul {
+            /* Styles for the navigation bar and its items */
+            font-weight: 700;
+            font-style: normal;
+            list-style-type: none;
+            margin-top: 0;
+            padding: 15px 10px;
+        }
+
+        nav ul li a {
+            /* Styles for the navigation links */
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 14px 16px;
+        }
+
+        nav ul li a:hover {
+            /* Hover effect for the navigation links */
+            background-color: #3A3B7B;
+        }
+
+        nav ul li.list {
+            /* Text Alignment and Layout of the Navigation Links. */
+            float: right;
+        }
+
+        ul li {
+            /* Text Styles and Layout of Logo */
+            font-family: 'Mina', sans-serif;
+            color: white;
+            float: left;
+        }
+
+        /* Containers for Cart.html */
+        .cart-container {
+            /* Containers for the cart items and order summary */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .cart-items {
+            flex: 1;
+            /* Sets the space for the cart items inside the container and responsive behavior */
+            min-width: 300px;
+            min-height: 600px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-scroll {
+            max-height: 400px;
+            padding-top: 10px;
+            /* small spacing */
+        }
+
+        .cart-items h4 {
+            /* Styles for the cart items header */
+            color: #0088FF;
+            font-weight: 700;
+            padding-top: 10px;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .order-summary {
+            flex: 1;
+            /* Sets the space for the order summary inside the container and responsive behavior */
+            min-width: 300px;
+            min-height: 600px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-summary h4 {
+            /* Styles for the order summary header */
+            color: #161490;
+            font-weight: 700;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /*Button Styles */
+        .btn.btn-primary {
+            background-color: #3A3B7B;
+            border-color: #3A3B7B;
+            font-weight: 700;
+        }
+
+        .btn.btn-primary:hover {
+            background-color: #2B307E;
+            border-color: #2B307E;
+            opacity: 0.8;
+        }
+
+        .btn.btn-secondary {
+            background-color: #FF7800;
+            border-color: #FF7800;
+            font-weight: 700;
+        }
+
+        .btn.btn-secondary:hover {
+            background-color: #FF7800;
+            border-color: #FF7800;
+            opacity: 0.8;
+        }
+
+
+        /* Cart Item Styles */
+        .card-title {
+            color: #0088FF;
+            font-weight: 700;
+        }
+
+        /* Styles for the cart item titles */
+        p.card-text {
+            color: #161490;
+            font-weight: 700;
+        }
+
+        .card img {
+            width: 100%;
+            /* fill its column width */
+            max-height: 120px;
+            /* cap the height */
+            object-fit: contain;
+            /* keep full image visible */
+            display: block;
+        }
+
+        .card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* keep controls aligned at top */
+        }
+
+        .card-body .d-flex {
+            align-items: center;
+            /* checkbox + delete stay centered */
+        }
+
+        .col-md-4 {
+            padding: 10px;
+            flex: 0 0 120px;
+            /* fixed width for image column */
+            max-width: 120px;
+        }
+
+        /* Form Styles */
+        .form-check {
+            /* Styles for the select/unselect all checkbox */
+            margin-top: 8px;
+            padding-left: 30px;
+        }
+
+        .form-check.col-6 {
+            padding-bottom: 20px;
+        }
+
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .col-6 {
+            padding-top: 10px;
+        }
+
+        .btn-danger {
+            opacity: 0;
+            pointer-events: none;
+            /* disable the delete button when checkbox is unchecked */
+        }
+
+        .form-check-input:checked+.btn-danger {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Table Styles */
+        .tables {
+            /* Styles for the order summary details */
+            margin-top: 50px;
+            width: 100%;
+
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-item {
+            color: #EB0808;
+            font-weight: 700;
+        }
+
+        .dropdown-item:hover {
+            color: #EB0808;
+            font-weight: 700;
+        }
+
+        .dropdown-item:focus {
+            background-color: transparent;
+            color: inherit;
+            outline: none;
+        }
+
+        /* Styles for the space between the order summary details and the checkout button */
+        .space {
+            height: 20px;
+        }
+
+        /* Modal Styles */
+        .modal-body-content {
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .d-flex.justify-content-center.gap-2 {
+            margin-top: 10px;
+            /* smaller gap before Place Order */
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Navigation content of the cart layout -->
+    <header>
+        <nav class="navigation">
+            <ul class="d-flex align-items-center w-100">
+                <!-- Logo -->
+                <li class="me-2">
+                    <img src="image_resources/logo.png" alt="Logo" style="max-width: 24px; max-height: 24px;">
+                </li>
+
+                <!-- Company Logo -->
+                <li class="me-auto">PrintPro</li>
+
+                <!-- Home icon -->
+                <li class="list">
+                    <a href="client_dashboard.php"><img src="image_resources/home-btn.png" alt="Home"></a>
+                </li>
+
+                <!-- User icon -->
+                <li class="list">
+                    <a href="my_profile.php"><img src="image_resources/user-btn.png" alt="User"></a>
+                </li>
+
+                <!-- Menu dropdown -->
+                <li class="dropdown list">
+                    <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="image_resources/menu-btn.png" alt="Menu">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="login.html">
+                                <img src="image_resources/logout-btn.png" alt="Logout" height="16">
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </nav>
+    </header>
+
+    <!-- Main content of the cart layout -->
+    <main>
+        <div class="container mt-3">
+            <a href="client_dashboard.php"
+                class="text-dark text-decoration-none d-flex align-items-center gap-1 fw-bold">
+                <span class="material-symbols-outlined fs-5">arrow_back_ios</span>
+                Back to Home
+            </a>
+        </div>
+        <section>
+            <!-- Cart section -->
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h4>My Cart</h4>
+
+                    <!-- Scrollable Cart Container -->
+                    <div class="container">
+                        <div class="overflow-auto" style="max-height: 400px;">
+
+                            <!-- Cart Items Here After User Adds Products -->
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        <img src="image_resources/The Golden Era Magazine.png"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+
+                                    <!-- Cards -->
+                                    <div class="col-md-8">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <!-- Left side: product text -->
+                                            <div>
+                                                <h5 class="card-title mb-1">Product Name</h5>
+                                                <p class="card-text mb-1">₱0.00</p>
+                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
+                                                </p>
+                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal1"> Edit </button>
+                                            </div>
+
+                                            <!-- Right side: checkbox + delete -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="checkbox" class="form-check-input">
+                                                <button class="btn btn-danger btn-sm p-1">
+                                                    <img src="image_resources/delete-icon.png" alt="Delete"
+                                                        style="width:16px; height:16px;">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Cart Items Here After User Adds Products -->
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        <img src="image_resources/The Golden Era Magazine.png"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+
+                                    <!-- Cards -->
+                                    <div class="col-md-8">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <!-- Left side: product text -->
+                                            <div>
+                                                <h5 class="card-title mb-1">Product Name</h5>
+                                                <p class="card-text mb-1">₱0.00</p>
+                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
+                                                </p>
+                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal1"> Edit </button>
+                                            </div>
+
+                                            <!-- Right side: checkbox + delete -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="checkbox" class="form-check-input">
+                                                <button class="btn btn-danger btn-sm p-1">
+                                                    <img src="image_resources/delete-icon.png" alt="Delete"
+                                                        style="width:16px; height:16px;">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Cart Items Here After User Adds Products -->
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        <img src="image_resources/The Golden Era Magazine.png"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+
+                                    <!-- Cards -->
+                                    <div class="col-md-8">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <!-- Left side: product text -->
+                                            <div>
+                                                <h5 class="card-title mb-1">Product Name</h5>
+                                                <p class="card-text mb-1">₱0.00</p>
+                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
+                                                </p>
+                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal1"> Edit </button>
+                                            </div>
+
+                                            <!-- Right side: checkbox + delete -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="checkbox" class="form-check-input">
+                                                <button class="btn btn-danger btn-sm p-1">
+                                                    <img src="image_resources/delete-icon.png" alt="Delete"
+                                                        style="width:16px; height:16px;">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <!-- Image -->
+                                    <div class="col-md-4">
+                                        <img src="image_resources/The Golden Era Magazine.png"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+
+                                    <!--Cards -->
+                                    <div class="col-md-8">
+                                        <div class="card-body d-flex justify-content-between align-items-center">
+                                            <!-- Left side: product text -->
+                                            <div>
+                                                <h5 class="card-title mb-1">Product Name</h5>
+                                                <p class="card-text mb-1">₱0.00</p>
+                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
+                                                </p>
+                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal1"> Edit </button>
+                                            </div>
+
+                                            <!-- Right side: checkbox + delete -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="checkbox" class="form-check-input">
+                                                <button class="btn btn-danger btn-sm p-1">
+                                                    <img src="image_resources/delete-icon.png" alt="Delete"
+                                                        style="width:16px; height:16px;">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <!-- Placeholder for the select/unselect all checkbox, which will allow users to easily select or deselect all items in the cart for checkout or removal -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                        <label class="form-check-label" for="checkDefault"> Select/Unselect All </label>
+                    </div>
+                </div>
+
+                <!-- Order Summary section -->
+                <div class="order-summary">
+                    <h4>Order Summary</h4>
+
+                    <table class="tables">
+                        <tr>
+                            <td>Quantity:</td>
+                            <td><b>0</b></td>
+                        </tr>
+                        <tr>
+                            <td>Subtotal:</td>
+                            <td><b>₱0.00</b></td>
+                        </tr>
+                        <tr>
+                            <td>Discount:</td>
+                            <td><b>₱0.00</b></td>
+                        </tr>
+                        <tr>
+                            <td>Total:</td>
+                            <td><b>₱0.00</b></td>
+                        </tr>
+                    </table>
+                    <div class="space"></div>
+                    <hr> <!-- Horizontal line --->
+                    <div class="space"></div>
+
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <!-- Placeholder for the checkout button, which will be enabled when items are added to the cart -->
+                        <a href="order_checkout.html" class="btn btn-secondary" tabindex="-1" role="button">Checkout</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for editing product specifications -->
+            <div class="modal fade" id="editModal1" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Product Specifications</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Customization form -->
+                            <label>Paper Size:</label>
+                            <select class="form-select">
+                                <option>A4</option>
+                                <option>A3</option>
+                                <option>Letter</option>
+                            </select>
+
+                            <label class="mt-2">Texture:</label>
+                            <select class="form-select">
+                                <option>Glossy</option>
+                                <option>Matte</option>
+                            </select>
+
+                            <label class="mt-2">GSM:</label>
+                            <input type="number" class="form-control" value="30">
+
+                            <label class="mt-2">Quantity:</label>
+                            <input type="number" class="form-control" value="1">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>

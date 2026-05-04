@@ -1,14 +1,21 @@
 <?php
 include 'db.php';
-error_reporting(E_ERROR | E_PARSE);
-
-header('Content-Type: application/json');
-
 $email        = $_POST['email'] ?? '';
 $new_password = $_POST['new_password'] ?? '';
+$confirm_password = $_POST['confirm_password'] ?? '';
+
+if(empty($email) || empty($new_password) || empty($confirm_password)) {
+    echo "Please fill in all fields";
+    exit;
+}
+
+if($new_password !== $confirm_password){
+    echo "Passwords do not match";
+    exit;
+}
 
 if(empty($email) || empty($new_password)) {
-    echo json_encode(["status" => "error", "message" => "Please fill in all fields"]);
+    echo "Please fill in all fields";
     exit;
 }
 
@@ -19,12 +26,14 @@ if($res->num_rows > 0) {
     $update = "UPDATE users SET user_password='$new_password' WHERE email='$email'";
     
     if($conn->query($update) === TRUE) {
-        echo json_encode(["status" => "success", "message" => "Password updated successfully"]);
+        header("Location: login.html?reset=success");
+        echo "Password updated successfully";
+        exit;
     } else {
-        echo json_encode(["status" => "error", "message" => "Update failed: " . $conn->error]);
+        echo "Update failed";
     }
 } else {
-    echo json_encode(["status" => "error", "message" => "Email does not match our records"]);
+    echo "Email does not match our records";
 }
 
 $conn->close();

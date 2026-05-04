@@ -1,12 +1,12 @@
 <?php
 include 'db.php';
 error_reporting(E_ERROR | E_PARSE);
-$fname      = $_POST['first_name'] ?? '';
-$mi         = $_POST['middle_initial'] ?? '';
-$lname      = $_POST['last_name'] ?? '';
+$fname      = $_POST['firstName'] ?? '';
+$mi         = $_POST['middleInitial'] ?? '';
+$lname      = $_POST['lastName'] ?? '';
 $email      = $_POST['email'] ?? '';
-$contact    = $_POST['contact_number'] ?? '';
-$password   = $_POST['user_password'] ?? '';
+$contact    = $_POST['contact'] ?? '';
+$password   = $_POST['password'] ?? '';
 $occupation = $_POST['occupation'] ?? '';
 
 $username = strtolower($fname . $lname);
@@ -36,8 +36,10 @@ $sql = "INSERT INTO users (first_name, middle_initial, last_name, username, emai
         '$email', '$contact', '$password', '$occupation')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "success";
-} else {
+    header("Refresh:2; url=login.html");
+    echo "Account created! Redirecting to login...";
+    exit;
+}else {
     echo "Error: " . $conn->error;
 }
 $conn->close();
