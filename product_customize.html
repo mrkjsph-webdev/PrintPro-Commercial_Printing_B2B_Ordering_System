@@ -307,7 +307,7 @@
 
           <div class="d-flex justify-content-center">
             <div class="main-preview upload-box" id="uploadBox">
-              <input type="file" id="fileInput" accept="image/*" hidden>
+              <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" hidden>
 
               <div id="uploadContent" class="text-center">
                 <img src="image_resources/upload_image.png">
@@ -391,31 +391,64 @@
     </div>
   </main>
   <script>
-    const uploadBox = document.getElementById("uploadBox");
-    const fileInput = document.getElementById("fileInput");
-    const previewImage = document.getElementById("previewImage");
-    const uploadContent = document.getElementById("uploadContent");
+  const uploadBox = document.getElementById("uploadBox");
+  const fileInput = document.getElementById("fileInput");
+  const previewImage = document.getElementById("previewImage");
+  const uploadContent = document.getElementById("uploadContent");
 
-    // Click to open file
-    uploadBox.addEventListener("click", () => {
+  let uploadedFileId = null;
+  let uploadedFilePath = null;
+
+  /* ---------- OPEN FILE PICKER ---------- */
+  uploadBox.addEventListener("click", () => {
       fileInput.click();
-    });
+  });
 
-    // When file selected
-    fileInput.addEventListener("change", function () {
+  /* ---------- ON FILE SELECT ---------- */
+  fileInput.addEventListener("change", async function () {
+
       const file = this.files[0];
       if (!file) return;
 
+      /* ---------- CLIENT VALIDATION ---------- */
+      const allowed = ["image/png", "image/jpeg"];
+
+      if (!allowed.includes(file.type)) {
+          alert("Only PNG and JPG files allowed.");
+          return;
+      }
+
+      /* ---------- PREVIEW IMAGE ---------- */
       const reader = new FileReader();
-
-      reader.onload = function (e) {
-        previewImage.src = e.target.result;
-        previewImage.classList.remove("d-none");
-        uploadContent.style.display = "none";
+      reader.onload = e => {
+          previewImage.src = e.target.result;
+          previewImage.classList.remove("d-none");
+          uploadContent.style.display = "none";
       };
-
       reader.readAsDataURL(file);
-    });
+
+      /* ---------- UPLOAD TO SERVER ---------- */
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("file_upload.php", {
+          method: "POST",
+          body: formData
+      });
+
+      const text = await response.text();
+      console.log("RAW RESPONSE:", text);
+
+      let result;
+
+      try {
+          result = JSON.parse(text);
+      } catch (e) {
+          console.error("Invalid JSON from PHP:", text);
+          alert("Server returned invalid response. Check console.");
+          return;
+      }
+      });
   </script>
 </body>
 
