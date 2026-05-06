@@ -96,7 +96,7 @@ if (!$stmt->execute()) {
 /* ---------- SUCCESS RESPONSE ---------- */
 echo json_encode([
     "status" => "success",
-    "file_id" => $stmt->insert_id, // AUTO_INCREMENT PRIMARY KEY
+    "file_id" => $stmt->insert_id,
     "image" => $dbImagePath
 ]);
 
