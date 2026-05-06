@@ -328,27 +328,66 @@
             <div class="spec-field mb-3">
               <label class="field-label" for="paperSize">Paper Size</label>
               <select id="paperSize" class="form-select">
-                <option selected>0</option>
+                <option selected></option>
+                <option>A0 (33.11 x 46.81 in)</option>
+                <option>A1 (29.7 x 42 in)</option>
+                <option>A2 (21 x 29.7 in)</option>
+                <option>A3 (14.8 x 21 in)</option>
+                <option>A4 (8.27 x 11.69 in)</option>
+                <option>A5 (5.83 x 8.27 in)</option>
+                <option>A6 (4.13 x 5.83 in)</option>
+                <option>A7 (2.83 x 4.13 in)</option>
+                <option>A8 (2.05 x 2.83 in)</option>
+                <option>A9 (1.42 x 2.05 in)</option>
+                <option>A10 (1.02 x 1.42 in)</option>
+                <option>B0 (39.37 x 55.91 in)</option>
+                <option>B1 (27.95 x 39.37 in)</option>
+                <option>B2 (19.69 x 27.95 in)</option>
+                <option>B3 (13.78 x 19.69 in)</option>
+                <option>B4 (9.84 x 13.78 in)</option>
+                <option>B5 (6.89 x 9.84 in)</option>
+                <option>B6 (4.92 x 6.89 in)</option>
+                <option>B7 (3.46 x 4.92 in)</option>
+                <option>B8 (2.44 x 3.46 in)</option>
+                <option>B9 (1.77 x 2.44 in)</option>
+                <option>B10 (1.22 x 1.77 in)</option>
+                <option>Tabloid (11 x 17 in)</option>
+                <option>Letter (8.5 x 11 in)</option>
+                <option>Legal (8.5 x 14 in)</option>
               </select>
             </div>
             <div class="spec-field mb-3">
               <label class="field-label" for="gsm">GSM</label>
               <select id="gsm" class="form-select">
-                <option selected>0</option>
+                <option selected></option>
+                <option>70</option>
+                <option>75</option>
+                <option>80</option>
+                <option>85</option>
+                <option>90</option>
+                <option>95</option>
+                <option>100</option>
+                <option>105</option>
+                <option>110</option>
+                <option>115</option>
+                <option>120</option>
               </select>
             </div>
             <div class="spec-field mb-3">
               <label class="field-label" for="paperTexture">Paper Texture</label>
               <select id="paperTexture" class="form-select">
-                <option selected>0</option>
+                <option selected></option>
+                <option>Glossy</option>
+                <option>Matte Finish</option>
+                <option>Semi-gloss</option>
+                <option>Cast-coated</option>
               </select>
             </div>
-            <div class="spec-field mb-3">
-              <label class="field-label" for="copies">Copies</label>
-              <select id="copies" class="form-select">
-                <option selected>0</option>
-              </select>
-            </div>
+            <div class="input-group" style="width: 150px;">
+            <button class="btn btn-outline-secondary" type="button" onclick="decrease()">−</button>
+            <input type="text" class="form-control text-center" id="qty" value="1">
+            <button class="btn btn-outline-secondary" type="button" onclick="increase()">+</button>
+          </div>
             <div class="price-box mb-4">
               <label class="field-label" for="price">Price</label>
               <input id="price" class="form-control" type="text" value="₱0" readonly />
@@ -359,7 +398,7 @@
             </div>
           </div>
           <div class="d-grid mt-3">
-            <button type="button" class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-orange" onclick="addToCart()">
               Add to Cart
             </button>
           </div>
@@ -384,49 +423,40 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="window.location.href='cart.html'">View My
               Cart</button>
-            <button type="button" class="btn btn-orange">Close</button>
+            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
   </main>
+  <!-- SCRIPTS -->
   <script>
   const uploadBox = document.getElementById("uploadBox");
   const fileInput = document.getElementById("fileInput");
   const previewImage = document.getElementById("previewImage");
   const uploadContent = document.getElementById("uploadContent");
 
-  let uploadedFileId = null;
-  let uploadedFilePath = null;
-
-  /* ---------- OPEN FILE PICKER ---------- */
   uploadBox.addEventListener("click", () => {
       fileInput.click();
   });
-
-  /* ---------- FILE SELECT ---------- */
   fileInput.addEventListener("change", async function () {
-
       const file = this.files[0];
-      if (!file) return;
 
+      if (!file) return;
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
           alert("Only PNG and JPG allowed.");
           return;
       }
-
-      /* ---------- PREVIEW ---------- */
       const reader = new FileReader();
       reader.onload = e => {
           previewImage.src = e.target.result;
           previewImage.classList.remove("d-none");
           uploadContent.style.display = "none";
       };
-      reader.readAsDataURL(file);
 
-      /* ---------- UPLOAD ---------- */
+      reader.readAsDataURL(file);
       const formData = new FormData();
       formData.append("file", file);
 
@@ -435,26 +465,170 @@
               method: "POST",
               body: formData
           });
-
           const result = await response.json();
-
           console.log("UPLOAD RESULT:", result);
-
           if (result.status === "success") {
-              uploadedFileId = result.file_id;
-              uploadedFilePath = result.image;
-
-              console.log("Saved ID:", uploadedFileId);
-              console.log("Saved Image:", uploadedFilePath);
+              window.currentFileId = result.file_id;
+              console.log("FILE ID SAVED:", window.currentFileId);
           } else {
               alert(result.message);
           }
 
       } catch (err) {
-          console.error("Upload error:", err);
+          console.error(err);
           alert("Upload failed.");
       }
   });
+  </script>
+  <!-- Calculate Price -->
+  <script>
+  function calculatePrice() {
+      const size = document.getElementById("paperSize").value;
+      const gsmValue = document.getElementById("gsm").value;
+      const texture = document.getElementById("paperTexture").value;
+      const qtyValue = document.getElementById("qty").value;
+
+      let gsm = parseInt(gsmValue);
+      let qty = parseInt(qtyValue);
+
+      if (isNaN(gsm)) gsm = 0;
+      if (isNaN(qty) || qty < 1) qty = 1;
+
+      let basePrice = 0;
+
+      const sizePrices = {
+          "A0 (33.11 x 46.81 in)": 120,
+          "A1 (29.7 x 42 in)": 100,
+          "A2 (21 x 29.7 in)": 80,
+          "A3 (14.8 x 21 in)": 60,
+          "A4 (8.27 x 11.69 in)": 20,
+          "A5 (5.83 x 8.27 in)": 15,
+          "A6 (4.13 x 5.83 in)": 10,
+          "A7 (2.83 x 4.13 in)": 8,
+          "A8 (2.05 x 2.83 in)": 6,
+          "A9 (1.42 x 2.05 in)": 5,
+          "A10 (1.02 x 1.42 in)": 5,
+          "B0 (39.37 x 55.91 in)": 130,
+          "B1 (27.95 x 39.37 in)": 110,
+          "B2 (19.69 x 27.95 in)": 90,
+          "B3 (13.78 x 19.69 in)": 70,
+          "B4 (9.84 x 13.78 in)": 50,
+          "B5 (6.89 x 9.84 in)": 25,
+          "B6 (4.92 x 6.89 in)": 18,
+          "B7 (3.46 x 4.92 in)": 12,
+          "B8 (2.44 x 3.46 in)": 10,
+          "B9 (1.77 x 2.44 in)": 8,
+          "B10 (1.22 x 1.77 in)": 6,
+          "Tabloid (11 x 17 in)": 90,
+          "Letter (8.5 x 11 in)": 25,
+          "Legal (8.5 x 14 in)": 30
+      };
+      basePrice = sizePrices[size] || 0;
+
+      // GSM calculation
+      let gsmExtra = 0;
+      if (gsm > 0) {
+          gsmExtra = (gsm - 70) * 0.5;
+          if (gsmExtra < 0) gsmExtra = 0;
+      }
+
+      // Texture pricing
+      let textureExtra = 0;
+      switch (texture) {
+          case "Glossy": textureExtra = 10; break;
+          case "Matte Finish": textureExtra = 8; break;
+          case "Semi-gloss": textureExtra = 6; break;
+          case "Cast-coated": textureExtra = 12; break;
+          default: textureExtra = 0;
+      }
+
+      let total = (basePrice + gsmExtra + textureExtra) * qty;
+
+      // FINAL SAFE OUTPUT
+      document.getElementById("price").value =
+          "₱" + (isNaN(total) ? "0.00" : total.toFixed(2));
+  }
+  </script>
+  <!-- Auto Update Price -->
+  <script>
+  document.querySelectorAll("select, #qty").forEach(el => {
+      el.addEventListener("change", calculatePrice);
+      el.addEventListener("input", calculatePrice);
+  });
+
+  function increase() {
+      let qty = document.getElementById("qty");
+      qty.value = parseInt(qty.value || 1) + 1;
+      calculatePrice();
+  }
+
+  function decrease() {
+      let qty = document.getElementById("qty");
+      if (qty.value > 1) qty.value--;
+      calculatePrice();
+  }
+
+  // initial calculation
+  calculatePrice();
+  </script>
+  <!-- Add to Cart -->
+  <script>
+  function addToCart() {
+    if (!window.currentFileId) {
+        alert("Please upload a file first.");
+        return;
+    }
+
+    const paperSize = document.getElementById("paperSize").value;
+    const gsm = document.getElementById("gsm").value;
+    const paperTexture = document.getElementById("paperTexture").value;
+    const copies = document.getElementById("qty").value;
+    let price = document.getElementById("price").value;
+
+    price = parseFloat(
+        price.replace("₱", "").replace(/,/g, "").trim()
+    );
+
+    if (isNaN(price)) {
+        alert("Invalid price calculation.");
+        return;
+    }
+
+    fetch("customization.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+            file_id: window.currentFileId,
+            paper_size: paperSize,
+            gsm: gsm,
+            paper_texture: paperTexture,
+            copies: copies,
+            price: price
+        })
+    })
+
+    .then(res => res.json())
+    .then(data => {
+        console.log("SERVER RESPONSE:", data);
+        if (data.status === "success") {
+            const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+            const cartLink = document.getElementById("cartLink");
+            if (cartLink) {
+                cartLink.href = "cart.html?file_id=" + window.currentFileId;
+            }
+        } else {
+            alert("Server Error: " + data.message);
+        }
+    })
+
+    .catch(err => {
+        console.error("FETCH ERROR:", err);
+        alert("Network or server error occurred.");
+    });
+}
   </script>
 </body>
 
