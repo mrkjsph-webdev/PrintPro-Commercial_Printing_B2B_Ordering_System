@@ -404,21 +404,20 @@
       fileInput.click();
   });
 
-  /* ---------- ON FILE SELECT ---------- */
+  /* ---------- FILE SELECT ---------- */
   fileInput.addEventListener("change", async function () {
 
       const file = this.files[0];
       if (!file) return;
 
-      /* ---------- CLIENT VALIDATION ---------- */
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
-          alert("Only PNG and JPG files allowed.");
+          alert("Only PNG and JPG allowed.");
           return;
       }
 
-      /* ---------- PREVIEW IMAGE ---------- */
+      /* ---------- PREVIEW ---------- */
       const reader = new FileReader();
       reader.onload = e => {
           previewImage.src = e.target.result;
@@ -427,28 +426,35 @@
       };
       reader.readAsDataURL(file);
 
-      /* ---------- UPLOAD TO SERVER ---------- */
+      /* ---------- UPLOAD ---------- */
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("file_upload.php", {
-          method: "POST",
-          body: formData
-      });
-
-      const text = await response.text();
-      console.log("RAW RESPONSE:", text);
-
-      let result;
-
       try {
-          result = JSON.parse(text);
-      } catch (e) {
-          console.error("Invalid JSON from PHP:", text);
-          alert("Server returned invalid response. Check console.");
-          return;
+          const response = await fetch("file_upload.php", {
+              method: "POST",
+              body: formData
+          });
+
+          const result = await response.json();
+
+          console.log("UPLOAD RESULT:", result);
+
+          if (result.status === "success") {
+              uploadedFileId = result.file_id;
+              uploadedFilePath = result.image;
+
+              console.log("Saved ID:", uploadedFileId);
+              console.log("Saved Image:", uploadedFilePath);
+          } else {
+              alert(result.message);
+          }
+
+      } catch (err) {
+          console.error("Upload error:", err);
+          alert("Upload failed.");
       }
-      });
+  });
   </script>
 </body>
 
