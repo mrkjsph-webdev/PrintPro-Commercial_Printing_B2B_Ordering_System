@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+  <a href="index.html" class="back">← Back</a>
+
+  <div class="container">
+    <h2>WELCOME BACK!</h2>
+    <p>Login to your account.</p>
+
+    <form action="login.php" method="post">
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" name="email" required class="form-control">
+        <div class="invalid-feedback">
+          Please provide a valid email.
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="user_password" required class="form-control">
+        <div class="invalid-feedback">
+          Please provide a valid password.
+        </div>
+      </div>
+
+      <div class="options">
+        <div class="show-password">
+          <input type="checkbox" id="showPassword">
+          <label for="showPassword">Show Password</label>
+        </div>
+        <a href="reset_password.html">Forgot Password?</a>
+      </div>
+
+      <!-- FIX: Button inside form -->
+      <button type="submit">LOGIN</button>
+
+      <div class="register">
+        Don't have an account?
+        <a href="sign_in.html">Register here</a>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const showPassword = document.getElementById('showPassword');
+    showPassword.addEventListener('change', function () {
+      passwordInput.type = this.checked ? 'text' : 'password';
+    });
+  </script>
+
+</body>
+
+</html>
