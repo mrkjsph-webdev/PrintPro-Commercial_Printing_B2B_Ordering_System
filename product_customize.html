@@ -423,7 +423,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="window.location.href='cart.html'">View My
               Cart</button>
-            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-orange" data-bs-dismiss="modal" onclick="window.location.href='client_dashboard.php'">Close</button>
           </div>
         </div>
       </div>
@@ -572,108 +572,7 @@
   calculatePrice();
   </script>
   <!-- Add to Cart -->
-  <script>
-  async function addToCart() {
-
-      /* ---------------- FILE CHECK ---------------- */
-
-      if (!window.currentFileId) {
-
-          alert("Please upload a file first.");
-          return;
-      }
-
-      /* ---------------- CUSTOMIZATION VALUES ---------------- */
-
-      const paperSize = document.getElementById("paperSize").value;
-      const gsm = document.getElementById("gsm").value;
-      const paperTexture = document.getElementById("paperTexture").value;
-      const copies = document.getElementById("qty").value;
-
-      /* ---------------- PRICE ---------------- */
-
-      let price = document.getElementById("price").value;
-
-      price = parseFloat(
-          price.replace("₱", "")
-              .replace(/,/g, "")
-              .trim()
-      );
-
-      if (isNaN(price)) {
-
-          alert("Invalid price.");
-          return;
-      }
-
-      try {
-
-          /* ---------------- CREATE CART ---------------- */
-
-          const cartResponse = await fetch("shopping_cart.php", {
-              method: "POST"
-          });
-
-          const cartData = await cartResponse.json();
-
-          console.log("CART RESPONSE:", cartData);
-
-          if (cartData.status !== "success") {
-
-              alert("Cart Error: " + cartData.message);
-              return;
-          }
-
-          /* ---------------- SAVE CUSTOMIZATION ---------------- */
-
-          const customizationResponse = await fetch("customization.php", {
-
-              method: "POST",
-
-              headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-              },
-
-              body: new URLSearchParams({
-
-                  file_id: window.currentFileId,
-                  paper_size: paperSize,
-                  gsm: gsm,
-                  paper_texture: paperTexture,
-                  copies: copies,
-                  price: price
-
-              })
-
-          });
-
-          const customizationData = await customizationResponse.json();
-
-          console.log("CUSTOMIZATION RESPONSE:", customizationData);
-
-          /* ---------------- SUCCESS ---------------- */
-
-          if (customizationData.status === "success") {
-
-              const modal = new bootstrap.Modal(
-                  document.getElementById('exampleModal')
-              );
-
-              modal.show();
-
-          } else {
-
-              alert("Customization Error: " + customizationData.message);
-          }
-
-      } catch(error) {
-
-          console.error("FETCH ERROR:", error);
-
-          alert("Network or server error occurred.");
-      }
-  }
-  </script>
+  <script src="addToCart.js"></script>
 </body>
 
 </html>
