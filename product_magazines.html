@@ -279,7 +279,7 @@
                     </div>
                 </div>
 
-                <a href="product_customize.html" class="btn btn-orange w-100 py-3 fs-5">
+                <a href="product_customize.html" class="btn btn-orange w-100 py-3 fs-5" data-product-id="7" onclick="goToCustomize(event)">
                     Customize this Product
                 </a>
             </div>
@@ -315,6 +315,24 @@
         container.addEventListener('mouseleave', () => {
             img.style.transformOrigin = 'center center';
         });
+
+        function goToCustomize(event) {
+        event.preventDefault();
+
+        const productId = event.currentTarget.dataset.productId;
+
+        if (!productId) {
+            alert("Missing product ID");
+            return;
+        }
+
+        // ALWAYS overwrite previous value
+        sessionStorage.setItem("product_id", productId);
+
+        console.log("Updated product_id:", productId);
+
+        window.location.href = "product_customize.html";
+        }
     </script>
 
 </body>
