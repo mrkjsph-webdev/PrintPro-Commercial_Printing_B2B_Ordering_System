@@ -26,6 +26,9 @@ $product_id = $_POST['product_id'] ?? null;
 $unit_price = $_POST['unit_price'] ?? null;
 $file_id    = $_POST['file_id'] ?? null;
 
+$data = json_decode(file_get_contents("php://input"), true);
+$customization_id = $data['customization_id'] ?? $_POST['customization_id'] ?? null;
+
 if (!$product_id || !$unit_price || !$file_id) {
 
     echo json_encode([
@@ -35,7 +38,7 @@ if (!$product_id || !$unit_price || !$file_id) {
     exit;
 }
 
-/* ---------------- GET EXISTING ACTIVE CART ONLY ---------------- */
+/* ---------------- GET ACTIVE CART ---------------- */
 
 $sql = "SELECT cart_id 
         FROM shopping_cart 
@@ -49,13 +52,11 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-/* ---------------- NO CART FOUND = ERROR ---------------- */
-
 if ($result->num_rows === 0) {
 
     echo json_encode([
         "status" => "error",
-        "message" => "No active cart found. Please create a cart first."
+        "message" => "No active cart found."
     ]);
     exit;
 }
@@ -63,17 +64,19 @@ if ($result->num_rows === 0) {
 $row = $result->fetch_assoc();
 $cart_id = $row['cart_id'];
 
-/* ---------------- INSERT ITEM ONLY ---------------- */
+/* ---------------- INSERT ITEM ---------------- */
 
 $insert = "INSERT INTO shopping_cart_items
-(cart_id, product_id, unit_price, added_at)
-VALUES (?, ?, ?, NOW())";
+(cart_id, product_id, customization_id, unit_price, added_at)
+VALUES (?, ?, ?, ?, NOW())";
 
 $stmt2 = $conn->prepare($insert);
 
-$stmt2->bind_param("iid",
+$stmt2->bind_param(
+    "iiid",
     $cart_id,
     $product_id,
+    $customization_id,
     $unit_price
 );
 
@@ -91,7 +94,8 @@ if ($stmt2->execute()) {
     echo json_encode([
         "status" => "success",
         "message" => "Item added successfully.",
-        "cart_id" => $cart_id
+        "cart_id" => $cart_id,
+        "customization_id" => $customization_id
     ]);
 
 } else {
