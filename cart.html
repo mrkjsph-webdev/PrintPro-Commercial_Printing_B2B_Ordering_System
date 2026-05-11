@@ -91,28 +91,28 @@
         .cart-container {
             /* Containers for the cart items and order summary */
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            gap: 25px;
             padding: 20px;
+            align-items: flex-start;
             margin-top: 10px;
             width: 100%;
             box-sizing: border-box;
         }
 
         .cart-items {
-            flex: 1;
+            flex: 0 0 70%;
             /* Sets the space for the cart items inside the container and responsive behavior */
-            min-width: 300px;
-            min-height: 600px;
+            max-width: 70%;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .cart-scroll {
-            max-height: 400px;
-            padding-top: 10px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding-top: 5px;
             /* small spacing */
         }
 
@@ -126,14 +126,17 @@
         }
 
         .order-summary {
-            flex: 1;
+            flex: 0 0 30%;
             /* Sets the space for the order summary inside the container and responsive behavior */
-            min-width: 300px;
+            max-width: 30%;
+            position: sticky;
+            top: 75px;
             min-height: 600px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
         }
 
         .order-summary h4 {
@@ -351,231 +354,370 @@
         </div>
         <section>
             <!-- Cart section -->
-            <div class="cart-container">
-                <div class="cart-items">
-                    <h4>My Cart</h4>
+<div class="cart-container">
 
-                    <!-- Scrollable Cart Container -->
-                    <div class="container">
-                        <div class="overflow-auto" style="max-height: 400px;">
+    <!-- LEFT : CART ITEMS -->
+    <div class="cart-items">
+        <h4>My Cart</h4>
 
-                            <!-- Cart Items Here After User Adds Products -->
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <!-- Image -->
-                                    <div class="col-md-4">
-                                        <img src="image_resources/The Golden Era Magazine.png"
-                                            class="img-fluid rounded-start" alt="...">
-                                    </div>
+        <div class="cart-scroll">
+            <div id="cartItems"></div>
+        </div>
 
-                                    <!-- Cards -->
-                                    <div class="col-md-8">
-                                        <div class="card-body d-flex justify-content-between align-items-center">
-                                            <!-- Left side: product text -->
-                                            <div>
-                                                <h5 class="card-title mb-1">Product Name</h5>
-                                                <p class="card-text mb-1">₱0.00</p>
-                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
-                                                </p>
-                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal1"> Edit </button>
-                                            </div>
+        <hr>
 
-                                            <!-- Right side: checkbox + delete -->
-                                            <div class="d-flex align-items-center gap-2">
-                                                <input type="checkbox" class="form-check-input">
-                                                <button class="btn btn-danger btn-sm p-1">
-                                                    <img src="image_resources/delete-icon.png" alt="Delete"
-                                                        style="width:16px; height:16px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Cart Items Here After User Adds Products -->
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <!-- Image -->
-                                    <div class="col-md-4">
-                                        <img src="image_resources/The Golden Era Magazine.png"
-                                            class="img-fluid rounded-start" alt="...">
-                                    </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="checkDefault">
+            <label class="form-check-label">
+                Select/Unselect All
+            </label>
+        </div>
+    </div>
 
-                                    <!-- Cards -->
-                                    <div class="col-md-8">
-                                        <div class="card-body d-flex justify-content-between align-items-center">
-                                            <!-- Left side: product text -->
-                                            <div>
-                                                <h5 class="card-title mb-1">Product Name</h5>
-                                                <p class="card-text mb-1">₱0.00</p>
-                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
-                                                </p>
-                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal1"> Edit </button>
-                                            </div>
+    <!-- RIGHT : ORDER SUMMARY -->
+    <div class="order-summary">
+        <h4>Order Summary</h4>
 
-                                            <!-- Right side: checkbox + delete -->
-                                            <div class="d-flex align-items-center gap-2">
-                                                <input type="checkbox" class="form-check-input">
-                                                <button class="btn btn-danger btn-sm p-1">
-                                                    <img src="image_resources/delete-icon.png" alt="Delete"
-                                                        style="width:16px; height:16px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Cart Items Here After User Adds Products -->
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <!-- Image -->
-                                    <div class="col-md-4">
-                                        <img src="image_resources/The Golden Era Magazine.png"
-                                            class="img-fluid rounded-start" alt="...">
-                                    </div>
+        <table class="tables">
+            <tr><td>Quantity:</td><td><b>0</b></td></tr>
+            <tr><td>Subtotal:</td><td><b>₱0.00</b></td></tr>
+            <tr><td>Discount:</td><td><b>₱0.00</b></td></tr>
+            <tr><td>Total:</td><td><b>₱0.00</b></td></tr>
+        </table>
 
-                                    <!-- Cards -->
-                                    <div class="col-md-8">
-                                        <div class="card-body d-flex justify-content-between align-items-center">
-                                            <!-- Left side: product text -->
-                                            <div>
-                                                <h5 class="card-title mb-1">Product Name</h5>
-                                                <p class="card-text mb-1">₱0.00</p>
-                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
-                                                </p>
-                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal1"> Edit </button>
-                                            </div>
+        <hr>
 
-                                            <!-- Right side: checkbox + delete -->
-                                            <div class="d-flex align-items-center gap-2">
-                                                <input type="checkbox" class="form-check-input">
-                                                <button class="btn btn-danger btn-sm p-1">
-                                                    <img src="image_resources/delete-icon.png" alt="Delete"
-                                                        style="width:16px; height:16px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <!-- Image -->
-                                    <div class="col-md-4">
-                                        <img src="image_resources/The Golden Era Magazine.png"
-                                            class="img-fluid rounded-start" alt="...">
-                                    </div>
+        <div class="d-grid">
+            <a href="order_checkout.html"
+               class="btn btn-secondary">
+               Checkout
+            </a>
+        </div>
+    </div>
 
-                                    <!--Cards -->
-                                    <div class="col-md-8">
-                                        <div class="card-body d-flex justify-content-between align-items-center">
-                                            <!-- Left side: product text -->
-                                            <div>
-                                                <h5 class="card-title mb-1">Product Name</h5>
-                                                <p class="card-text mb-1">₱0.00</p>
-                                                <p class="card-text"><small class="text-body-secondary">₱0.00</small>
-                                                </p>
-                                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal1"> Edit </button>
-                                            </div>
-
-                                            <!-- Right side: checkbox + delete -->
-                                            <div class="d-flex align-items-center gap-2">
-                                                <input type="checkbox" class="form-check-input">
-                                                <button class="btn btn-danger btn-sm p-1">
-                                                    <img src="image_resources/delete-icon.png" alt="Delete"
-                                                        style="width:16px; height:16px;">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <!-- Placeholder for the select/unselect all checkbox, which will allow users to easily select or deselect all items in the cart for checkout or removal -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                        <label class="form-check-label" for="checkDefault"> Select/Unselect All </label>
-                    </div>
-                </div>
-
-                <!-- Order Summary section -->
-                <div class="order-summary">
-                    <h4>Order Summary</h4>
-
-                    <table class="tables">
-                        <tr>
-                            <td>Quantity:</td>
-                            <td><b>0</b></td>
-                        </tr>
-                        <tr>
-                            <td>Subtotal:</td>
-                            <td><b>₱0.00</b></td>
-                        </tr>
-                        <tr>
-                            <td>Discount:</td>
-                            <td><b>₱0.00</b></td>
-                        </tr>
-                        <tr>
-                            <td>Total:</td>
-                            <td><b>₱0.00</b></td>
-                        </tr>
-                    </table>
-                    <div class="space"></div>
-                    <hr> <!-- Horizontal line --->
-                    <div class="space"></div>
-
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <!-- Placeholder for the checkout button, which will be enabled when items are added to the cart -->
-                        <a href="order_checkout.html" class="btn btn-secondary" tabindex="-1" role="button">Checkout</a>
-                    </div>
-                </div>
-            </div>
-
+</div>
             <!-- Modal for editing product specifications -->
             <div class="modal fade" id="editModal1" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Product Specifications</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Customization form -->
-                            <label>Paper Size:</label>
-                            <select class="form-select">
-                                <option>A4</option>
-                                <option>A3</option>
-                                <option>Letter</option>
-                            </select>
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                            <label class="mt-2">Texture:</label>
-                            <select class="form-select">
-                                <option>Glossy</option>
-                                <option>Matte</option>
-                            </select>
-
-                            <label class="mt-2">GSM:</label>
-                            <input type="number" class="form-control" value="30">
-
-                            <label class="mt-2">Quantity:</label>
-                            <input type="number" class="form-control" value="1">
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary">Save Changes</button>
-                        </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Product Specifications</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
+
+                    <div class="modal-body">
+
+                        <input type="hidden" id="customization_id">
+
+                        <label>Paper Size:</label>
+                        <select id="paperSize" class="form-select">
+                            <option selected disabled>Select Size</option>
+                            <option>A0 (33.11 x 46.81 in)</option>
+                            <option>A1 (29.7 x 42 in)</option>
+                            <option>A2 (21 x 29.7 in)</option>
+                            <option>A3 (14.8 x 21 in)</option>
+                            <option>A4 (8.27 x 11.69 in)</option>
+                            <option>A5 (5.83 x 8.27 in)</option>
+                            <option>A6 (4.13 x 5.83 in)</option>
+                            <option>A7 (2.83 x 4.13 in)</option>
+                            <option>A8 (2.05 x 2.83 in)</option>
+                            <option>A9 (1.42 x 2.05 in)</option>
+                            <option>A10 (1.02 x 1.42 in)</option>
+                            <option>B0 (39.37 x 55.91 in)</option>
+                            <option>B1 (27.95 x 39.37 in)</option>
+                            <option>B2 (19.69 x 27.95 in)</option>
+                            <option>B3 (13.78 x 19.69 in)</option>
+                            <option>B4 (9.84 x 13.78 in)</option>
+                            <option>B5 (6.89 x 9.84 in)</option>
+                            <option>B6 (4.92 x 6.89 in)</option>
+                            <option>B7 (3.46 x 4.92 in)</option>
+                            <option>B8 (2.44 x 3.46 in)</option>
+                            <option>B9 (1.77 x 2.44 in)</option>
+                            <option>B10 (1.22 x 1.77 in)</option>
+                            <option>Tabloid (11 x 17 in)</option>
+                            <option>Letter (8.5 x 11 in)</option>
+                            <option>Legal (8.5 x 14 in)</option>
+                        </select>
+
+                        <div class="spec-field mb-3">
+                        <label class="field-label" for="gsm">GSM:</label>
+                        <select id="gsm" class="form-select">
+                            <option selected disabled>Select GSM</option>
+                            <option>70</option>
+                            <option>75</option>
+                            <option>80</option>
+                            <option>85</option>
+                            <option>90</option>
+                            <option>95</option>
+                            <option>100</option>
+                            <option>105</option>
+                            <option>110</option>
+                            <option>115</option>
+                            <option>120</option>
+                        </select>
+                        </div>
+
+                        <div class="spec-field mb-3">
+                            <label class="field-label" for="paperTexture">Texture:</label>
+                            <select id="paperTexture" class="form-select">
+                                <option selected disabled>Select Texture</option>
+                                <option>Glossy</option>
+                                <option>Matte Finish</option>
+                                <option>Semi-gloss</option>
+                                <option>Cast-coated</option>
+                            </select>
+                        </div>
+
+                        <label class="mt-2">Copies:</label>
+                        <input type="number" id="qty" class="form-control" value="1">
+
+                        <label class="mt-2">Total Price:</label>
+                        <input type="text" id="total_price" class="form-control" readonly>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="saveCustomization()">
+                            Save Changes
+                        </button>
+                    </div>
+
                 </div>
             </div>
+        </div>
         </section>
 
     </main>
+    <!-- Load Cart Items -->
+    <script>
+    async function loadCart() {
+
+        const response = await fetch("get_cart.php");
+        const cartItems = await response.json();
+
+        const container = document.getElementById("cartItems");
+
+        container.innerHTML = "";
+
+        if (!cartItems.length) {
+            container.innerHTML = "<p>No items in cart.</p>";
+            return;
+        }
+
+        cartItems.forEach(item => {
+
+            container.innerHTML += `
+            <div class="card mb-3" style="max-width:540px;">
+                <div class="row g-0">
+
+                    <div class="col-md-4">
+                        <img src="image_resources/The Golden Era Magazine.png"
+                            class="img-fluid rounded-start">
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h5 class="card-title mb-1">
+                                    ${item.product_name}
+                                </h5>
+
+                                <p class="card-text mb-1">
+                                    ₱${Number(item.unit_price).toFixed(2)}
+                                </p>
+
+                                <button class="btn btn-secondary btn-sm"
+                                onclick="openEditModal(${item.cart_item_id}, ${item.customization_id})"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editModal1">
+                                Edit
+                                </button>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="checkbox"
+                                    class="form-check-input"
+                                    value="${item.cart_item_id}">
+
+                                <button class="btn btn-danger btn-sm p-1">
+                                    <img src="image_resources/delete-icon.png"
+                                        style="width:16px;height:16px;">
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>`;
+        });
+    }
+
+    /* Load automatically */
+    loadCart();
+    </script>
+    <script>
+    /* =========================
+    PRICE CALCULATION ENGINE
+    ========================= */
+    function calculatePrice() {
+
+        const size = document.getElementById("paperSize").value;
+        const gsmValue = document.getElementById("gsm").value;
+        const texture = document.getElementById("paperTexture").value;
+        const qtyValue = document.getElementById("qty").value;
+
+        let gsm = parseInt(gsmValue);
+        let qty = parseInt(qtyValue);
+
+        if (isNaN(gsm)) gsm = 0;
+        if (isNaN(qty) || qty < 1) qty = 1;
+
+        const sizePrices = {
+            "A0 (33.11 x 46.81 in)": 120,
+            "A1 (29.7 x 42 in)": 100,
+            "A2 (21 x 29.7 in)": 80,
+            "A3 (14.8 x 21 in)": 60,
+            "A4 (8.27 x 11.69 in)": 20,
+            "A5 (5.83 x 8.27 in)": 15,
+            "A6 (4.13 x 5.83 in)": 10,
+            "A7 (2.83 x 4.13 in)": 8,
+            "A8 (2.05 x 2.83 in)": 6,
+            "A9 (1.42 x 2.05 in)": 5,
+            "A10 (1.02 x 1.42 in)": 5,
+            "B0 (39.37 x 55.91 in)": 130,
+            "B1 (27.95 x 39.37 in)": 110,
+            "B2 (19.69 x 27.95 in)": 90,
+            "B3 (13.78 x 19.69 in)": 70,
+            "B4 (9.84 x 13.78 in)": 50,
+            "B5 (6.89 x 9.84 in)": 25,
+            "B6 (4.92 x 6.89 in)": 18,
+            "B7 (3.46 x 4.92 in)": 12,
+            "B8 (2.44 x 3.46 in)": 10,
+            "B9 (1.77 x 2.44 in)": 8,
+            "B10 (1.22 x 1.77 in)": 6,
+            "Tabloid (11 x 17 in)": 90,
+            "Letter (8.5 x 11 in)": 25,
+            "Legal (8.5 x 14 in)": 30
+        };
+
+        let basePrice = sizePrices[size] || 0;
+
+        // GSM extra
+        let gsmExtra = 0;
+        if (gsm > 0) {
+            gsmExtra = (gsm - 70) * 0.5;
+            if (gsmExtra < 0) gsmExtra = 0;
+        }
+
+        // Texture pricing
+        let textureExtra = 0;
+        switch (texture) {
+            case "Glossy": textureExtra = 10; break;
+            case "Matte Finish": textureExtra = 8; break;
+            case "Semi-gloss": textureExtra = 6; break;
+            case "Cast-coated": textureExtra = 12; break;
+            default: textureExtra = 0;
+        }
+
+        let total = (basePrice + gsmExtra + textureExtra) * qty;
+
+        document.getElementById("total_price").value =
+            isNaN(total) ? "₱0.00" : "₱" + total.toFixed(2);
+    }
+
+
+    /* =========================
+    ATTACH LIVE LISTENERS
+    ========================= */
+    function attachPriceListeners() {
+
+        const fields = ["paperSize", "gsm", "paperTexture", "qty"];
+
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("change", calculatePrice);
+                el.addEventListener("input", calculatePrice);
+            }
+        });
+    }
+    // Load Data into Modal
+    async function openEditModal(cart_item_id, customization_id) {
+
+    const res = await fetch("get_customization.php?id=" + customization_id);
+    const data = await res.json();
+
+    if (!data || data.error) {
+        alert("Failed to load customization");
+        return;
+    }
+
+    document.getElementById("customization_id").value = data.customization_id;
+
+    document.getElementById("paperSize").value = data.paper_size;
+    document.getElementById("gsm").value = data.gsm;
+    document.getElementById("paperTexture").value = data.paper_texture;
+    document.getElementById("qty").value = data.copies;
+
+    setTimeout(calculatePrice, 50);
+}
+    /* =========================
+    SAVE UPDATED DATA
+    ========================= */
+    async function saveCustomization() {
+
+    calculatePrice();
+
+    const payload = {
+        customization_id: document.getElementById("customization_id").value,
+
+        paper_size: document.getElementById("paperSize").value,
+        gsm: document.getElementById("gsm").value,
+        paper_texture: document.getElementById("paperTexture").value,
+        copies: document.getElementById("qty").value,
+
+        total_price: document.getElementById("total_price")
+            .value.replace("₱", "").replace(/,/g, "").trim()
+    };
+
+    console.log("SENDING:", payload); // 🔥 DEBUG STEP
+
+    const response = await fetch("update_customization.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    console.log("RESULT:", result);
+
+    if (result.success) {
+        loadCart();
+
+        bootstrap.Modal.getInstance(
+            document.getElementById("editModal1")
+        )?.hide();
+
+    } else {
+        alert(result.message || "Update failed");
+    }
+}
+    /* =========================
+    INIT ON PAGE LOAD
+    ========================= */
+    document.addEventListener("DOMContentLoaded", () => {
+
+        attachPriceListeners();
+
+        calculatePrice(); // initial safe default
+    });
+    </script>
 </body>
 
 </html>
