@@ -33,7 +33,7 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-/* ---------------- IF EXISTS → RETURN IT ---------------- */
+/* ---------------- IF EXISTS, RETURN IT ---------------- */
 if ($result->num_rows > 0) {
 
     $row = $result->fetch_assoc();
