@@ -18,7 +18,7 @@ $gsm = trim($_POST['gsm'] ?? '');
 $paper_texture = trim($_POST['paper_texture'] ?? '');
 $copies = intval($_POST['copies'] ?? 1);
 
-$price = floatval($_POST['price'] ?? 0);
+$price = floatval($_POST['total_price'] ?? 0);
 
 if ($file_id <= 0 || !$paper_size || !$gsm || !$paper_texture) {
     echo json_encode(["status" => "error", "message" => "Missing fields"]);
@@ -27,7 +27,7 @@ if ($file_id <= 0 || !$paper_size || !$gsm || !$paper_texture) {
 
 $stmt = $conn->prepare("
     INSERT INTO customization
-    (file_id, paper_size, gsm, paper_texture, copies, price)
+    (file_id, paper_size, gsm, paper_texture, copies, total_price)
     VALUES (?, ?, ?, ?, ?, ?)
 ");
 
