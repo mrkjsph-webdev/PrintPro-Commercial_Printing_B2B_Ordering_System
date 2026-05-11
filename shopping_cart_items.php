@@ -35,7 +35,7 @@ if (!$product_id || !$unit_price || !$file_id) {
     exit;
 }
 
-/* ---------------- GET EXISTING ACTIVE CART ONLY ---------------- */
+/* ---------------- GET EXISTING ACTIVE CART ---------------- */
 
 $sql = "SELECT cart_id 
         FROM shopping_cart 
@@ -49,7 +49,7 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-/* ---------------- NO CART FOUND = ERROR ---------------- */
+/* ---------------- NO CART FOUND ---------------- */
 
 if ($result->num_rows === 0) {
 
