@@ -1,0 +1,330 @@
+/* GLOBAL VARIABLES */
+:root {
+    --navbar-blue: #2B307E;
+    --hero-dark: #0a0b1a;
+    --printpro-orange: #FF7800;
+    --layout-gap: 32px;
+}
+
+/* BASE STYLES */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+section {
+    scroll-margin-top: 60px;
+}
+
+#products {
+    min-height: 90vh;
+}
+
+#about {
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+}
+
+/* para maging STICKY */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+}
+
+/* COLORS */
+.bg-navbar-custom {
+    background-color: var(--navbar-blue) !important;
+}
+
+.bg-hero-custom {
+    background-color: var(--hero-dark) !important;
+}
+
+.bg-printpro-purple {
+    background-color: #4a4fb1;
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff;
+}
+
+.navbar-nav .nav-link.active {
+    background: linear-gradient(90deg, #1e90ff, #007bff);
+    color: #fff !important;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* BUTTON */
+.btn-orange {
+    background-color: var(--printpro-orange);
+    border: none;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 0px #CC6000;
+}
+
+.btn-orange:hover {
+    background: linear-gradient(45deg, #FF7800, #FFB347);
+    transform: scale(1.05) translateY(-3px);
+    color: white;
+    box-shadow: 0 10px 20px rgba(255, 120, 0, 0.4);
+}
+
+.btn-orange:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 0px #CC6000;
+}
+
+/* HERO */
+.hero-title {
+    font-size: 55px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-family: 'Mina', sans-serif !important;
+    max-width: 600px;
+}
+
+.hero-bg-text {
+    position: absolute;
+    bottom: -80px;
+    left: -20px;
+    font-weight: 900;
+    font-size: 20rem;
+    letter-spacing: -12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 50%,
+            transparent 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: blur(3px);
+}
+
+.poster-frame img {
+    width: 100%;
+    object-fit: cover;
+}
+
+/* PRODUCT GRID sa products */
+.product-grid {
+    --bs-gutter-x: var(--layout-gap);
+    --bs-gutter-y: var(--layout-gap);
+}
+
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-family: 'Mina', sans-serif !important;
+}
+
+/* ABOUT sa footer */
+.about-logo-box {
+    background-color: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 380px;
+}
+
+.about-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.about-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: white;
+    font-weight: bold;
+}
+
+.font-mina {
+    font-family: 'Mina', sans-serif !important;
+}
+
+/* CONTACT sa footer */
+.contact-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-custom-icon {
+    width: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+/* para sa PRODUCT CARD */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.img-container {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-container img {
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* para sa PRODUCT DETAIL */
+.fw-800 {
+    font-weight: 800;
+}
+
+.product-main-preview {
+    background-color: #f1f3f9;
+    min-height: 500px;
+    border: 1px solid #e2e8f0;
+}
+
+.custom-thumb {
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 5px;
+    object-fit: cover;
+    height: 80px;
+}
+
+.custom-thumb.active {
+    border-color: var(--printpro-orange) !important;
+}
+
+.custom-thumb:hover {
+    transform: scale(1.05);
+}
+
+.delivery-info-card {
+    background: #ffffff;
+    border: 1.5px solid #ececec;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.info-icon {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* para sa FLYER PAGE */
+.flyer-page {
+    background-color: #f3f4f6;
+    padding: 40px 0 60px;
+}
+
+.flyer-page .product-main-preview {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.flyer-page .custom-thumb {
+    background: #fff;
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.flyer-page .product-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.flyer-page .delivery-card {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 15px;
+    background: #fff;
+}
+
+.flyer-page .btn-customize {
+    margin-top: 60px;
+    font-size: 1.2rem;
+    padding: 16px;
+}
+
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+}
+
+#mainView {
+    transition: transform 0.3s ease-out;
+    pointer-events: none;
+    max-height: 100%;
+}
+
+.zoom-container:hover #mainView {
+    transform: scale(2);
+}
+
+.navbar-nav .nav-link.active {
+    background: linear-gradient(90deg, #1e90ff, #007bff) !important;
+    color: #fff !important;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link.active {
+    background-color: #0d6efd;
+    color: white !important;
+    border-radius: 10px;
+    padding: 6px 12px;
+}
