@@ -328,7 +328,7 @@
             <div class="spec-field mb-3">
               <label class="field-label" for="paperSize">Paper Size</label>
               <select id="paperSize" class="form-select">
-                <option selected></option>
+                <option selected disabled>Select Size</option>
                 <option>A0 (33.11 x 46.81 in)</option>
                 <option>A1 (29.7 x 42 in)</option>
                 <option>A2 (21 x 29.7 in)</option>
@@ -359,7 +359,7 @@
             <div class="spec-field mb-3">
               <label class="field-label" for="gsm">GSM</label>
               <select id="gsm" class="form-select">
-                <option selected></option>
+                <option selected disabled>Select GSM</option>
                 <option>70</option>
                 <option>75</option>
                 <option>80</option>
@@ -376,7 +376,7 @@
             <div class="spec-field mb-3">
               <label class="field-label" for="paperTexture">Paper Texture</label>
               <select id="paperTexture" class="form-select">
-                <option selected></option>
+                <option selected disabled>Select Texture</option>
                 <option>Glossy</option>
                 <option>Matte Finish</option>
                 <option>Semi-gloss</option>
@@ -389,8 +389,8 @@
             <button class="btn btn-outline-secondary" type="button" onclick="increase()">+</button>
           </div>
             <div class="price-box mb-4">
-              <label class="field-label" for="price">Price</label>
-              <input id="price" class="form-control" type="text" value="₱0" readonly />
+              <label class="field-label" for="total_price">Total Price</label>
+              <input id="total_price" class="form-control" type="text" value="₱0" readonly />
             </div>
             <div class="info-box mb-4">
               <strong>Pickup Delivery Only</strong>
@@ -545,7 +545,7 @@
       let total = (basePrice + gsmExtra + textureExtra) * qty;
 
       // FINAL SAFE OUTPUT
-      document.getElementById("price").value =
+      document.getElementById("total_price").value =
           "₱" + (isNaN(total) ? "0.00" : total.toFixed(2));
   }
   </script>
