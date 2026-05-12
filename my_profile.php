@@ -1,8 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['user_id'])) {
-} 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,14 +5,15 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile - PrintPro</title>
-    <link href="bootstrap.css" rel="stylesheet">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;600;800&display=swap"
-        rel="stylesheet">
-   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mina:wght@400;700&display=swap');
 
         @media screen and (max-width: 600px) {
 
@@ -145,6 +141,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Navigation content of the cart layout -->
     <header>
         <nav class="navigation">
@@ -181,7 +178,7 @@ if (isset($_SESSION['user_id'])) {
     <main>
         <div class="container mt-3">
             <a href="./client_dashboard.php" class="text-dark text-decoration-none d-flex align-items-center gap-1 fw-bold">
-                <img src="image_resources/arrow_back.png" alt="Back" height="16">
+                <span class="material-symbols-outlined fs-5">arrow_back_ios</span>
                 Back to Home
             </a>
         </div>
@@ -194,7 +191,7 @@ if (isset($_SESSION['user_id'])) {
 
             <!-- Avatar -->
             <div class="avatar">
-                <img src="image_resources/user_account.png" alt="Avatar" class="text-secondary">
+                <i class="fa-solid fa-user fs-1 text-secondary"></i>
             </div>
 
             <!-- Info -->
@@ -213,22 +210,22 @@ if (isset($_SESSION['user_id'])) {
         <!-- EDITABLE FORM -->
         <div class="px-4 px-md-5 mt-4 pb-0">
             <div class="profile-card p-3 p-md-4" style="border: 1px solid #0E0E0E; position: relative;">
-                <img src="image_resources/edit-btn.png" alt="Edit" onclick="window.location.href='my_profile_editable.php'" ;
-                    style="position: absolute; top: 15px; right: 15px; color: #0E0E0E; cursor: pointer; font-size: 1.2rem;">
+                <i class="fa-regular fa-pen-to-square" onclick="window.location.href='my_profile_editable.html'" ;
+                    style="position: absolute; top: 15px; right: 15px; color: #0E0E0E; cursor: pointer; font-size: 1.2rem;"></i>
 
                 <!-- Form Row 1: First Name, Middle Initial, Last Name -->
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">First Name</label>
-                        <input id="first_name" class="input-field" disabled>
+                        <input id="first_name" class="input-field" readonly>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Middle Initial</label>
-                        <input id="middle_initial" class="input-field" disabled>
+                        <input id="middle_initial" class="input-field" readonly>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Last Name</label>
-                        <input id="last_name" class="input-field" disabled>
+                        <input id="last_name" class="input-field" readonly>
                     </div>
                 </div>
 
@@ -236,78 +233,79 @@ if (isset($_SESSION['user_id'])) {
                 <div class="row g-3 mb-5">
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Contact Number</label>
-                        <input class="input-field" id="contact_number" disabled>
+                        <input class="input-field" id="contact_number" readonly>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Email</label>
-                        <input class="input-field" id="email"disabled>
+                        <input class="input-field" id="email" readonly>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Occupation</label>
                         <select class="input-field" id="occupation" disabled>
-                             <option value="Business Owner">Business Owner</option>
-                            <option value="Freelancer">Freelancer</option>
-                            <option value="Employee">Employee</option>
-                            <option value="Part-Timer">Part-Timer</option>
-                            <option value="Student">Student</option>
-                            <option value="Teacher">Teacher</option>
-                            <option value="Unemployed">Unemployed</option>
-                            <option value="Other">Other</option>
+                            <option>Business Owner</option>
+                            <option>Freelancer</option>
+                            <option>Employee</option>
+                            <option>Part-Timer</option>
+                            <option>Student</option>
+                            <option>Teacher</option>
+                            <option>Unemployed</option>
+                            <option>Other</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <script src="bootstrap.bundle.js"></script>
     <!-- Function to fetch and display user profile data -->
     <script>
     fetch('get_user_profile.php')
-    .then(response => response.json())
-    .then(res => {
+        .then(response => response.json())
+        .then(res => {
+            if (res.status === "success") {
+                const user = res.data;
 
-        console.log(res);
+                // Full name
+                document.querySelector('.profile-info h3').textContent =
+                    `${user.first_name} ${user.middle_initial} ${user.last_name}`;
 
-        if (res.status === "success") {
+                // Occupation display
+                document.querySelector('.profile-info span').textContent = user.occupation;
 
-            const user = res.data;
+                // Email display
+                document.querySelectorAll('.profile-info span')[1].textContent = user.email;
 
-            // Profile header
-            document.querySelector('.profile-info h3').textContent =
-                `${user.first_name} ${user.middle_initial} ${user.last_name}`;
+                // Form fields
+                const inputs = document.querySelectorAll('.input-field');
 
-            // Profile spans
-            const spans = document.querySelectorAll('.profile-info span');
+                inputs[0].value = user.first_name;
+                inputs[1].value = user.middle_initial;
+                inputs[2].value = user.last_name;
+                inputs[3].value = user.contact_number;
+                inputs[4].value = user.email;
+                const select = inputs[5];
+                const userOcc = (user.occupation || "").trim();
 
-            spans[0].textContent = user.occupation;
-            spans[1].textContent = user.email;
+                let found = false;
 
-            // Form fields
-            document.getElementById('first_name').value =
-                user.first_name;
+                for (let option of select.options) {
+                    if (option.value.trim().toLowerCase() === userOcc.toLowerCase()) {
+                        option.selected = true;
+                        found = true;
+                        break;
+                    }
+                }
 
-            document.getElementById('middle_initial').value =
-                user.middle_initial;
+                // If not found, add it dynamically
+                if (!found && userOcc !== "") {
+                    const newOption = new Option(userOcc, userOcc, true, true);
+                    select.add(newOption);
+                }
 
-            document.getElementById('last_name').value =
-                user.last_name;
-
-            document.getElementById('contact_number').value =
-                user.contact_number;
-
-            document.getElementById('email').value =
-                user.email;
-
-            document.getElementById('occupation').value =
-                user.occupation;
-
-        } else {
-
-            alert(res.message);
-
-        }
-
-    })
+            } else {
+                alert(res.message);
+            }
+        })
+        .catch(err => console.error(err));
     </script>
 </body>
 
