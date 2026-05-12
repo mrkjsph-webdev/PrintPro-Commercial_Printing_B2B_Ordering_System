@@ -125,6 +125,33 @@
             margin-bottom: 20px;
         }
 
+        /* cart item checkbox */
+        #cartItems .form-check-input {
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            border: 2px solid #2B307E;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+        }
+
+        /* checked state */
+        #cartItems .form-check-input:checked {
+            background-color: #FF7800;
+            border-color: #FF7800;
+        }
+
+        /* hover effect */
+        #cartItems .form-check-input:hover {
+            transform: scale(1.15);
+            transition: 0.2s ease;
+        }
+
+        /* easier clicking area */
+        #cartItems .d-flex.align-items-center.gap-2 {
+            padding: 8px;
+            border-radius: 8px;
+        }
+
         .order-summary {
             flex: 0 0 30%;
             /* Sets the space for the order summary inside the container and responsive behavior */
@@ -236,13 +263,13 @@
             padding-top: 10px;
         }
 
-        .btn-danger {
+        .cart-items .btn-danger {
             opacity: 0;
             pointer-events: none;
             /* disable the delete button when checkbox is unchecked */
         }
 
-        .form-check-input:checked+.btn-danger {
+        .cart-items .form-check-input:checked+.btn-danger {
             opacity: 1;
             pointer-events: auto;
         }
@@ -301,6 +328,7 @@
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- Navigation content of the cart layout -->
     <header>
         <nav class="navigation">
@@ -488,6 +516,39 @@
         </div>
         </section>
 
+    
+    <!-- DELETE CONFIRMATION MODAL -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p>Are you sure you want to delete this item?</p>
+                <small class="text-muted">You can't undo this action.</small>
+            </div>
+
+            <!-- FIXED FOOTER -->
+            <div class="modal-footer d-flex justify-content-center gap-2">
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
     </main>
     <!-- Load Cart Items -->
     <script>
@@ -541,7 +602,7 @@
                                     class="form-check-input"
                                     value="${item.cart_item_id}">
 
-                                <button class="btn btn-danger btn-sm p-1">
+                                <button class="btn btn-danger btn-sm p-1" onclick="deleteSelectedItem(this)">
                                     <img src="image_resources/delete-icon.png"
                                         style="width:16px;height:16px;">
                                 </button>
@@ -558,10 +619,8 @@
     /* Load automatically */
     loadCart();
     </script>
+    <!-- Price Calculation -->
     <script>
-    /* =========================
-    PRICE CALCULATION ENGINE
-    ========================= */
     function calculatePrice() {
 
         const size = document.getElementById("paperSize").value;
@@ -628,10 +687,7 @@
             isNaN(total) ? "₱0.00" : "₱" + total.toFixed(2);
     }
 
-
-    /* =========================
-    ATTACH LIVE LISTENERS
-    ========================= */
+    // Attach listeners to all fields that affect price calculation
     function attachPriceListeners() {
 
         const fields = ["paperSize", "gsm", "paperTexture", "qty"];
@@ -664,9 +720,7 @@
 
     setTimeout(calculatePrice, 50);
 }
-    /* =========================
-    SAVE UPDATED DATA
-    ========================= */
+    // Save changes from Modal
     async function saveCustomization() {
 
     calculatePrice();
@@ -708,14 +762,193 @@
         alert(result.message || "Update failed");
     }
 }
-    /* =========================
-    INIT ON PAGE LOAD
-    ========================= */
+    // Initialize listeners and calculate price on page load
     document.addEventListener("DOMContentLoaded", () => {
 
         attachPriceListeners();
 
         calculatePrice(); // initial safe default
+    });
+    </script>
+    <!-- ORDER SUMMARY -->
+    <script>
+    // Discount tiers based on total quantity
+    function getDiscountRate(qty) {
+
+        if (qty > 100) return 0.20;
+        if (qty > 50) return 0.18;
+        if (qty > 25) return 0.15;
+        if (qty > 10) return 0.12;
+        if (qty > 8) return 0.10;
+        if (qty > 5) return 0.08;
+        if (qty > 2) return 0.05;
+
+        return 0;
+    }
+
+    // Calculate and update the order summary based on selected items
+    function updateOrderSummary() {
+
+        const checkedItems =
+            document.querySelectorAll("#cartItems input[type='checkbox']:checked");
+
+        let totalQty = 0;
+        let subtotal = 0;
+
+        checkedItems.forEach(cb => {
+
+            const card = cb.closest(".card");
+
+            /* get price */
+            const priceText =
+                card.querySelector(".card-text").innerText.replace("₱","");
+
+            const price = parseFloat(priceText);
+
+            /* quantity (default = 1 if not stored yet) */
+            const qtyInput = card.querySelector("input[type='number']");
+            const qty = qtyInput ? parseInt(qtyInput.value) : 1;
+
+            totalQty += qty;
+            subtotal += price * qty;
+        });
+
+        /* apply discount */
+        const discountRate = getDiscountRate(totalQty);
+        const discountAmount = subtotal * discountRate;
+        const total = subtotal - discountAmount;
+
+        /* update table */
+        const summaryRows =
+            document.querySelectorAll(".order-summary table b");
+
+        summaryRows[0].innerText = totalQty;
+        summaryRows[1].innerText = "₱" + subtotal.toFixed(2);
+        summaryRows[2].innerText = "₱" + discountAmount.toFixed(2);
+        summaryRows[3].innerText = "₱" + total.toFixed(2);
+    }
+
+    // Listen for changes in item selection to update the order summary
+    document.addEventListener("change", function(e) {
+
+        if (e.target.matches("#cartItems input[type='checkbox']")) {
+            updateOrderSummary();
+        }
+
+    });
+
+    // Select/Unselect all functionality
+    document.getElementById("checkDefault")
+    .addEventListener("change", function() {
+
+        const allItems =
+            document.querySelectorAll("#cartItems input[type='checkbox']");
+
+        allItems.forEach(cb => cb.checked = this.checked);
+
+        updateOrderSummary();
+    });
+
+    // Override loadCart to also update the order summary after loading items
+    const originalLoadCart = loadCart;
+
+    loadCart = async function() {
+        await originalLoadCart();
+        updateOrderSummary();
+    };
+
+    </script>
+    <!-- DELETE ITEM -->
+    <script>
+    let itemToDelete = null;
+
+    function deleteSelectedItem(button) {
+
+        const card = button.closest(".card");
+        const checkbox = card.querySelector("input[type='checkbox']");
+
+        if (!checkbox) return;
+
+        if (!checkbox.checked) {
+            alert("Please select the item first before deleting.");
+            return;
+        }
+
+        itemToDelete = {
+            card: card,
+            cart_item_id: checkbox.value
+        };
+
+        const modalEl = document.getElementById("deleteConfirmModal");
+
+        if (!modalEl) {
+            console.error("Modal not found");
+            return;
+        }
+
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    }
+
+
+    // Handle the delete confirmation
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const confirmBtn = document.getElementById("confirmDeleteBtn");
+
+        if (!confirmBtn) {
+            console.error("Delete button not found in modal");
+            return;
+        }
+
+        confirmBtn.addEventListener("click", async function () {
+
+            if (!itemToDelete) return;
+
+            try {
+
+                const response = await fetch("delete_cart_item.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        cart_item_id: itemToDelete.cart_item_id
+                    })
+                });
+
+                const result = await response.json();
+
+                console.log("DELETE RESULT:", result);
+
+                if (result.success) {
+
+                    // remove UI
+                    itemToDelete.card.remove();
+
+                    // update summary if exists
+                    if (typeof updateOrderSummary === "function") {
+                        updateOrderSummary();
+                    }
+
+                    // hide modal safely
+                    const modalEl = document.getElementById("deleteConfirmModal");
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+
+                    if (modal) modal.hide();
+
+                } else {
+                    alert(result.message || "Delete failed");
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong while deleting.");
+            }
+
+            itemToDelete = null;
+        });
+
     });
     </script>
 </body>
