@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile - PrintPro</title>
-    <link href="bootstrap.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;600;800&display=swap"
-        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mina:wght@400;700&display=swap');
+
         @media screen and (max-width: 600px) {
 
             /* Responsive Style for Navigation Bar */
@@ -96,7 +97,7 @@
             color: inherit;
             outline: none;
         }
-
+        
         .profile-card {
             background-color: #f0f0f0;
             border-radius: 12px;
@@ -172,7 +173,7 @@
 </head>
 
 <body>
-    <script src="bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Navigation content of the cart layout -->
     <header>
         <nav class="navigation">
@@ -209,10 +210,10 @@
     <br>
     <main>
         <div class="container mt-3">
-            <a href="my_profile.php"
+            <a href="client_dashboard.php"
                 class="text-dark text-decoration-none d-flex align-items-center gap-1 fw-bold">
-                <img src="image_resources/arrow_back.png" alt="Back" height="16">
-                Back to My Profile
+                <span class="material-symbols-outlined fs-5">arrow_back_ios</span>
+                Back to Home
             </a>
         </div>
         <!-- TITLE -->
@@ -225,7 +226,7 @@
 
             <!-- Avatar -->
             <div class="avatar">
-                <img src="image_resources/user_account.png" alt="Avatar" class="fa-solid text-secondary">
+                <i class="fa-solid fa-user fs-1 text-secondary"></i>
             </div>
 
             <!-- Info -->
@@ -274,14 +275,15 @@
                     <div class="col-md-4">
                         <label class="fw-bold" style="color: #0E0E0E;">Occupation</label>
                         <select class="input-field" id="occupation">
-                            <option value="business owner">Business Owner</option>
-                            <option value="freelancer">Freelancer</option>
-                            <option value="employee">Employee</option>
-                            <option value="part-timer">Part-Timer</option>
-                            <option value="student">Student</option>
-                            <option value="teacher">Teacher</option>
-                            <option value="unemployed">Unemployed</option>
-                            <option value="other">Other</option>
+                            <option selected disabled>Select Occupation</option>
+                            <option>Business Owner</option>
+                            <option>Freelancer</option>
+                            <option>Employee</option>
+                            <option>Part-Timer</option>
+                            <option>Student</option>
+                            <option>Teacher</option>
+                            <option>Unemployed</option>
+                            <option>Other</option>
                         </select>
                     </div>
                 </div>
@@ -294,82 +296,82 @@
     </main>
     <!-- Function to fetch and display user profile data -->
     <script>
-        fetch('get_user_profile.php')
-            .then(response => response.json())
-            .then(res => {
-                if (res.status === "success") {
-                    const user = res.data;
+    fetch('get_user_profile.php')
+        .then(response => response.json())
+        .then(res => {
+            if (res.status === "success") {
+                const user = res.data;
 
-                    // Full name
-                    document.querySelector('.profile-info h3').textContent =
-                        `${user.first_name} ${user.middle_initial} ${user.last_name}`;
+                // Full name
+                document.querySelector('.profile-info h3').textContent =
+                    `${user.first_name} ${user.middle_initial} ${user.last_name}`;
 
-                    // Occupation display
-                    document.querySelector('.profile-info span').textContent = user.occupation;
+                // Occupation display
+                document.querySelector('.profile-info span').textContent = user.occupation;
 
-                    // Email display
-                    document.querySelectorAll('.profile-info span')[1].textContent = user.email;
+                // Email display
+                document.querySelectorAll('.profile-info span')[1].textContent = user.email;
 
-                    // Form fields
-                    const inputs = document.querySelectorAll('.input-field');
+                // Form fields
+                const inputs = document.querySelectorAll('.input-field');
 
-                    inputs[0].value = user.first_name;
-                    inputs[1].value = user.middle_initial;
-                    inputs[2].value = user.last_name;
-                    inputs[3].value = user.contact_number;
-                    inputs[4].value = user.email;
-                    const select = inputs[5];
-                    const userOcc = (user.occupation || "").trim();
+                inputs[0].value = user.first_name;
+                inputs[1].value = user.middle_initial;
+                inputs[2].value = user.last_name;
+                inputs[3].value = user.contact_number;
+                inputs[4].value = user.email;
+                const select = inputs[5];
+                const userOcc = (user.occupation || "").trim();
 
-                    let found = false;
+                let found = false;
 
-                    for (let option of select.options) {
-                        if (option.value.trim().toLowerCase() === userOcc.toLowerCase()) {
-                            option.selected = true;
-                            found = true;
-                            break;
-                        }
+                for (let option of select.options) {
+                    if (option.value.trim().toLowerCase() === userOcc.toLowerCase()) {
+                        option.selected = true;
+                        found = true;
+                        break;
                     }
-
-                    // If not found, add it dynamically
-                    if (!found && userOcc !== "") {
-                        const newOption = new Option(userOcc, userOcc, true, true);
-                        select.add(newOption);
-                    }
-
-                } else {
-                    alert(res.message);
                 }
-            })
-            .catch(err => console.error(err));
+
+                // If not found, add it dynamically
+                if (!found && userOcc !== "") {
+                    const newOption = new Option(userOcc, userOcc, true, true);
+                    select.add(newOption);
+                }
+
+            } else {
+                alert(res.message);
+            }
+        })
+        .catch(err => console.error(err));
     </script>
     <!-- Function to update user profile -->
     <script>
-        function updateProfile() {
-            const data = new FormData();
+    function updateProfile() {
+        const data = new FormData();
 
-            data.append("first_name", document.getElementById("first_name").value);
-            data.append("middle_initial", document.getElementById("middle_initial").value);
-            data.append("last_name", document.getElementById("last_name").value);
-            data.append("contact_number", document.getElementById("contact_number").value);
-            data.append("email", document.getElementById("email").value);
-            data.append("occupation", document.getElementById("occupation").value);
+        data.append("first_name", document.getElementById("first_name").value);
+        data.append("middle_initial", document.getElementById("middle_initial").value);
+        data.append("last_name", document.getElementById("last_name").value);
+        data.append("contact_number", document.getElementById("contact_number").value);
+        data.append("email", document.getElementById("email").value);
+        data.append("occupation", document.getElementById("occupation").value);
 
-            fetch('update_user_profile.php', {
-                method: 'POST',
-                body: data
-            })
-                .then(res => res.json())
-                .then(res => {
-                    if (res.status === "success") {
-                        alert("Profile updated successfully!");
-                        window.location.href = "my_profile.html";
-                    } else {
-                        alert(res.message);
-                    }
-                })
-                .catch(err => console.error(err));
-        }
+        fetch('update_user_profile.php', {
+            method: 'POST',
+            body: data
+        })
+        .then(res => res.json())
+        .then(res => {
+            if (res.status === "success") {
+                alert("Profile updated successfully!");
+                window.location.href = "my_profile.html";
+            } else {
+                alert(res.message);
+            }
+        })
+        .catch(err => console.error(err));
+    }
     </script>
 </body>
 
