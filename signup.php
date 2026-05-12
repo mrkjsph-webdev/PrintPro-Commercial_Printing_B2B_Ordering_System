@@ -54,11 +54,14 @@ if ($res->num_rows > 0) {
     exit;
 }
 
+/* HASH PASSWORD */
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
 /* INSERT USER */
 $sql = "INSERT INTO users 
 (first_name, middle_initial, last_name, username, email, contact_number, user_password, occupation)
 VALUES
-('$fname', '$mi', '$lname', '$username', '$email', '$contact', '$password', '$occupation')";
+('$fname', '$mi', '$lname', '$username', '$email', '$contact', '$hashed_password', '$occupation')";
 
 if ($conn->query($sql) === TRUE) {
     header("Location: login.html?signup=success");
