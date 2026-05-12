@@ -19,7 +19,6 @@ if ($email === $admin_email && $password === $admin_password) {
     exit();
 }
 
-
 if (empty($email) || empty($password)) {
     header("Location: login.html?error=Invalid:+All+fields+are+required");
     exit;
@@ -34,24 +33,34 @@ foreach ($allowed_domains as $domain) {
         break;
     }
 }
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !$valid_domain) {
     header("Location: login.html?error=Invalid+email+address");
     exit;
 }
 
-$sql = "SELECT * FROM users WHERE email='$email' AND user_password='$password'";
+/* GET USER BY EMAIL ONLY */
+$sql = "SELECT * FROM users WHERE email='$email'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+
     $row = $result->fetch_assoc();
 
-    $_SESSION['user_id'] = $row['user_id'];
-    $_SESSION['first_name'] = $row['first_name'];
-     $_SESSION['last_name'] = $row['last_name'];
+    /* VERIFY HASHED PASSWORD */
+    if (password_verify($password, $row['user_password'])) {
 
-    // FIXED: clean redirect
-    header("Location: client_dashboard.php");
-    exit;
+        $_SESSION['user_id'] = $row['user_id'];
+        $_SESSION['first_name'] = $row['first_name'];
+        $_SESSION['last_name'] = $row['last_name'];
+
+        header("Location: client_dashboard.php");
+        exit;
+
+    } else {
+        header("Location: login.html?error=Invalid+email+or+password");
+        exit;
+    }
 
 } else {
     header("Location: login.html?error=Invalid+email+or+password");
