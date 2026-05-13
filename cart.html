@@ -602,7 +602,8 @@
 
                             <input type="checkbox"
                                 class="form-check-input cart-checkbox"
-                                value="${item.cart_item_id}">
+                                value="${item.cart_item_id}"
+                                onchange="updateSelection(this)">
 
                             <button class="btn btn-danger btn-sm p-1"
                                 onclick="deleteSelectedItem(this)">
@@ -794,7 +795,7 @@
             .value.replace("₱", "").replace(/,/g, "").trim()
     };
 
-    console.log("SENDING:", payload); // 🔥 DEBUG STEP
+    console.log("SENDING:", payload);
 
     const response = await fetch("update_customization.php", {
         method: "POST",
