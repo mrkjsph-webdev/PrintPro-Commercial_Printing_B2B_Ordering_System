@@ -14,5 +14,4 @@ else
 {
     //echo "DATABASE CONNECTION SUCCESSFUL";
 }
-
 ?>
