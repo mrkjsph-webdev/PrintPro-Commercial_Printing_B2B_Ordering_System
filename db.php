@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "pie_db"; 
+$db   = "printpro_db"; 
 
 $conn = new mysqli($host, $user, $pass, $db);
 
