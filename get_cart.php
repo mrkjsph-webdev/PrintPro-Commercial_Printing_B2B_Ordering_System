@@ -6,16 +6,13 @@ header("Content-Type: application/json");
 
 try {
 
-    /* ---------- CHECK LOGIN ---------- */
-
     if (!isset($_SESSION['user_id'])) {
         throw new Exception("User not logged in.");
     }
 
     $user_id = $_SESSION['user_id'];
 
-    /* ---------- GET ACTIVE CART ---------- */
-
+    // Get the active cart for the user
     $cartQuery = "
         SELECT cart_id
         FROM shopping_cart
@@ -25,11 +22,6 @@ try {
     ";
 
     $stmtCart = $conn->prepare($cartQuery);
-
-    if (!$stmtCart) {
-        throw new Exception($conn->error);
-    }
-
     $stmtCart->bind_param("i", $user_id);
     $stmtCart->execute();
 
@@ -43,28 +35,31 @@ try {
     $cart = $cartResult->fetch_assoc();
     $cart_id = $cart['cart_id'];
 
-    /* ---------- GET CART ITEMS (UPDATED) ---------- */
-
+    // Optimized query to get all cart items with product and image info in one go
     $sql = "
         SELECT 
             sci.cart_item_id,
             sci.product_id,
             sci.customization_id,
             sci.unit_price,
-            p.product_name
+            p.product_name,
+            fu.image AS image
+
         FROM shopping_cart_items sci
         INNER JOIN products p
             ON sci.product_id = p.product_id
+
+        INNER JOIN customization c
+            ON sci.customization_id = c.customization_id
+
+        INNER JOIN file_upload fu
+            ON c.file_id = fu.file_id
+
         WHERE sci.cart_id = ?
         ORDER BY sci.added_at DESC
     ";
 
     $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        throw new Exception($conn->error);
-    }
-
     $stmt->bind_param("i", $cart_id);
     $stmt->execute();
 
@@ -73,7 +68,26 @@ try {
     $cart_items = [];
 
     while ($row = $result->fetch_assoc()) {
-        $cart_items[] = $row;
+
+        // Handle image path - if no image, use default; otherwise ensure path is correct
+        $image = $row['image'];
+
+        if (!$image) {
+            $image = "image_resources/no-image.png";
+        } else {
+            
+            $image = str_replace("\\", "/", $image);
+            $image = ltrim($image, "/");
+        }
+
+        $cart_items[] = [
+            "cart_item_id"     => $row["cart_item_id"],
+            "product_id"       => $row["product_id"],
+            "customization_id" => $row["customization_id"],
+            "product_name"     => $row["product_name"],
+            "unit_price"       => $row["unit_price"],
+            "image"            => $image
+        ];
     }
 
     echo json_encode($cart_items);
