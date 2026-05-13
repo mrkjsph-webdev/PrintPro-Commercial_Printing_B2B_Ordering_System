@@ -559,7 +559,6 @@
         const cartItems = await response.json();
 
         const container = document.getElementById("cartItems");
-
         container.innerHTML = "";
 
         if (!cartItems.length) {
@@ -569,13 +568,16 @@
 
         cartItems.forEach(item => {
 
+            const imagePath = item.image || "image_resources/no-image.png";
+
             container.innerHTML += `
             <div class="card mb-3" style="max-width:540px;">
                 <div class="row g-0">
 
                     <div class="col-md-4">
-                        <img src="image_resources/The Golden Era Magazine.png"
-                            class="img-fluid rounded-start">
+                        <img src="${imagePath}"
+                            class="img-fluid rounded-start"
+                            onerror="this.src='image_resources/no-image.png'">
                     </div>
 
                     <div class="col-md-8">
@@ -591,21 +593,22 @@
                                 </p>
 
                                 <button class="btn btn-secondary btn-sm"
-                                onclick="openEditModal(${item.cart_item_id}, ${item.customization_id})"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editModal1">
-                                Edit
+                                    onclick="openEditModal(${item.cart_item_id}, ${item.customization_id})"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editModal1">
+                                    Edit
                                 </button>
                             </div>
 
-                            <input type="checkbox" class="form-check-input cart-checkbox" value="${item.cart_item_id}" 
-                            ${item.is_selected == 1 ? "checked" : ""} onchange="updateSelection(this)">
+                            <input type="checkbox"
+                                class="form-check-input cart-checkbox"
+                                value="${item.cart_item_id}">
 
-                                <button class="btn btn-danger btn-sm p-1" onclick="deleteSelectedItem(this)">
-                                    <img src="image_resources/delete-icon.png"
-                                        style="width:16px;height:16px;">
-                                </button>
-                            </div>
+                            <button class="btn btn-danger btn-sm p-1"
+                                onclick="deleteSelectedItem(this)">
+                                <img src="image_resources/delete-icon.png"
+                                    style="width:16px;height:16px;">
+                            </button>
 
                         </div>
                     </div>
