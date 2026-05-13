@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "printpro_db"; 
+$db   = "printprodb"; 
 
 $conn = new mysqli($host, $user, $pass, $db);
 
