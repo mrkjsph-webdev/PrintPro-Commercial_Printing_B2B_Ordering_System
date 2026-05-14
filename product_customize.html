@@ -5,8 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Product Customization</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <link href="bootstrap.css" rel="stylesheet">
   <link
     href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
     rel="stylesheet">
@@ -256,7 +255,7 @@
 
 <body>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="bootstrap.bundle.js"></script>
   <header>
     <nav class="navigation">
       <ul class="d-flex align-items-center w-100">
@@ -302,12 +301,15 @@
       <div class="col-md-6">
         <div class="card-panel shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="client_dashboard.php" class="back-link text-decoration-none">← Back</a>
+            <a href="client_dashboard.php" class="back-link text-decoration-none">
+              <img src="image_resources/arrow_back.png" alt="Back" width="20" height="20"> Back
+            </a>
           </div>
 
           <div class="d-flex justify-content-center">
             <div class="main-preview upload-box" id="uploadBox">
               <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" hidden>
+
               <div id="uploadContent" class="text-center">
                 <img src="image_resources/upload_image.png">
                 <p class="text-muted mb-1">Click to upload image</p>
