@@ -407,7 +407,7 @@
         modal.show();
     }
     </script>
-
+    <!-- Function to navigate back to the profile page -->
     <script>
         function goBacktoProfile() {
             window.location.href = "my_profile.html";
