@@ -1,32 +1,93 @@
-async function addToCart() {
+console.log("addToCart.js loaded");
 
-    /* ---------------- FILE CHECK ---------------- */
-    if (!window.currentFileId) {
+async function uploadBothImages() {
+    console.log("uploadBothImages called");
+    const fileInput1 = document.getElementById("fileInput");
+    const fileInput2 = document.getElementById("fileInput2");
+    const checkbox = document.getElementById("backToBackPrinting");
+
+    console.log("fileInput1:", fileInput1?.files?.length);
+    console.log("fileInput2:", fileInput2?.files?.length);
+    console.log("checkbox.checked:", checkbox?.checked);
+
+    if (!fileInput1?.files?.[0]) {
+        alert("Please upload a front image.");
+        return false;
+    }
+
+    const frontFile = fileInput1.files[0];
+    const backFile = (checkbox?.checked) ? fileInput2?.files?.[0] : null;
+
+    if (checkbox?.checked && !backFile) {
+        alert("Back to Back printing is checked. Please upload a back image.");
+        return false;
+    }
+
+    const formData = new FormData();
+    formData.append("frontImage", frontFile);
+    if (backFile) {
+        formData.append("backImage", backFile);
+    }
+
+    try {
+        const response = await fetch("file_upload.php", {
+            method: "POST",
+            body: formData
+        });
+        const text = await response.text();
+        console.log("RAW RESPONSE:", text);
+
+        const result = JSON.parse(text);
+
+        if (result.status === "success") {
+            window.uploadedFileId = result.file_id;
+            window.frontImagePath = result.frontImage;
+            window.backImagePath = result.backImage || null;
+            console.log("Upload successful, file_id:", window.uploadedFileId);
+            return true;
+        } else {
+            alert("Upload Error: " + result.message);
+            return false;
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        alert("Upload failed: " + err.message);
+        return false;
+    }
+}
+
+async function addToCart() {
+    console.log("addToCart called");
+
+    const uploadSuccess = await uploadBothImages();
+    console.log("Upload success:", uploadSuccess);
+
+    if (!uploadSuccess) {
+        console.log("Upload failed, returning");
+        return;
+    }
+
+    if (!window.uploadedFileId) {
         alert("Please upload a file first.");
         return;
     }
 
-    /* ---------------- PRODUCT ID ---------------- */
     const product_id = sessionStorage.getItem("product_id");
-
     if (!product_id) {
         alert("Product ID missing. Please select a product again.");
         return;
     }
 
-    /* ---------------- CUSTOMIZATION VALUES ---------------- */
     const paperSize = document.getElementById("paperSize").value;
     const gsm = document.getElementById("gsm").value;
     const paperTexture = document.getElementById("paperTexture").value;
     const copies = document.getElementById("qty").value;
 
-    /* ---------------- PRICE ---------------- */
     let total_price = document.getElementById("total_price").value;
-
     total_price = parseFloat(
         total_price.replace("₱", "")
-                   .replace(/,/g, "")
-                   .trim()
+            .replace(/,/g, "")
+            .trim()
     );
 
     if (isNaN(total_price)) {
@@ -35,12 +96,9 @@ async function addToCart() {
     }
 
     try {
-
-        /* ---------------- CREATE / GET ACTIVE CART ---------------- */
         const cartResponse = await fetch("shopping_cart.php", {
             method: "POST"
         });
-
         const cartData = await cartResponse.json();
 
         if (cartData.status !== "success") {
@@ -48,21 +106,18 @@ async function addToCart() {
             return;
         }
 
-        /* ---------------- SAVE CUSTOMIZATION ---------------- */
         const customizationResponse = await fetch("customization.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             body: new URLSearchParams({
-
-                file_id: window.currentFileId,
+                file_id: window.uploadedFileId,
                 paper_size: paperSize,
                 gsm: gsm,
                 paper_texture: paperTexture,
                 copies: copies,
                 total_price: total_price
-
             })
         });
 
@@ -73,7 +128,6 @@ async function addToCart() {
             return;
         }
 
-        /* ---------------- IMPORTANT VALUE ---------------- */
         const customization_id = customizationData.customization_id;
 
         if (!customization_id) {
@@ -81,19 +135,16 @@ async function addToCart() {
             return;
         }
 
-        /* ---------------- ADD TO CART ITEMS ---------------- */
         const cartItemResponse = await fetch("shopping_cart_items.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             body: new URLSearchParams({
-
                 product_id: product_id,
-                unit_price: total_price,  
-                file_id: window.currentFileId,
+                unit_price: total_price,
+                file_id: window.uploadedFileId,
                 customization_id: customization_id
-
             })
         });
 
@@ -104,16 +155,12 @@ async function addToCart() {
             return;
         }
 
-        /* ---------------- SUCCESS ---------------- */
-
         const modal = new bootstrap.Modal(
             document.getElementById('exampleModal')
         );
-
         modal.show();
 
         sessionStorage.removeItem("product_id");
-
         console.log("SUCCESS: item added with customization_id:", customization_id);
 
     } catch (error) {
