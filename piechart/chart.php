@@ -1,6 +1,7 @@
 <?php
-require_once 'db.php'; // Include your database connection file
+require_once 'db.php';
 
+// Fetch chart data
 $query = "
 SELECT 
     pc.category_name,
@@ -30,13 +31,80 @@ while($row = mysqli_fetch_assoc($result)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart Example</title>
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Data Labels -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .chart-container{
+            width: 600px;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        button{
+            padding: 10px 20px;
+            border: none;
+            background: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background: #0b5ed7;
+        }
+    </style>
 </head>
 <body>
-    <div style="width: 600px; height: 400px;">
-        <canvas id="myChart"></canvas>
+
+    <div id="reportContent">
+        <h2>Product Category Report</h2>
+
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Total Quantity</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                for($i = 0; $i < count($categories); $i++){
+                    echo "
+                    <tr>
+                        <td>{$categories[$i]}</td>
+                        <td>{$quantities[$i]}</td>
+                    </tr>
+                    ";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
+
+    <br>
+
+    <button onclick="generatePDF()">Generate PDF Report</button>
 
     <script>
         const labels = <?php echo json_encode($categories); ?>;
@@ -46,10 +114,13 @@ while($row = mysqli_fetch_assoc($result)) {
 
         new Chart(document.getElementById('myChart'), {
             type: 'pie',
+
             data: {
                 labels: labels,
+
                 datasets: [{
                     data: data,
+
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -60,6 +131,7 @@ while($row = mysqli_fetch_assoc($result)) {
                         'rgba(128, 2, 30, 0.2)',
                         'rgba(17, 99, 155, 0.2)'
                     ],
+
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
@@ -70,26 +142,74 @@ while($row = mysqli_fetch_assoc($result)) {
                         'rgb(151, 54, 54)',
                         'rgb(14, 105, 166)'
                     ],
+
                     borderWidth: 2
                 }]
             },
+
             options: {
+                responsive: true,
+
                 plugins: {
                     datalabels: {
                         formatter: (value, ctx) => {
-                            let percentage = (value / total * 100).toFixed(1) + "%";
+
+                            let percentage = (
+                                value / total * 100
+                            ).toFixed(1) + "%";
+
                             let label = ctx.chart.data.labels[ctx.dataIndex];
+
                             return label + "\n" + value + " (" + percentage + ")";
                         },
+
                         color: '#000',
+
                         font: {
                             weight: 'bold'
                         }
                     }
                 }
             },
+
             plugins: [ChartDataLabels]
         });
+
+        async function generatePDF(){
+
+            const { jsPDF } = window.jspdf;
+
+            const report = document.getElementById('reportContent');
+
+            const canvas = await html2canvas(report, {
+                scale: 2
+            });
+
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+
+            const imgWidth = pdfWidth - 20;
+
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            pdf.text("Product Category Report", 10, 10);
+
+            pdf.addImage(
+                imgData,
+                'PNG',
+                10,
+                20,
+                imgWidth,
+                imgHeight
+            );
+
+            pdf.save("category_report.pdf");
+        }
     </script>
+
 </body>
 </html>
+
