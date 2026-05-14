@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details | PrintPro</title>
     <link href="bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link href="index_style.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="nav-active.js" defer></script>
 </head>
 <body>
@@ -26,10 +27,11 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center">
-                <a href="login.html" class="btn btn-outline-light me-3 px-3 d-flex align-items-center rounded-pill">
-                    Login
-                </a>
-                <button type="button" class="btn btn-orange px-4 rounded-pill"onclick="window.location.href='signup.html'">SIGN UP</button>
+                <button type="button" class="btn btn-outline-light me-3 px-3 d-flex align-items-center rounded-pill" onclick="window.location.href='login.html'">
+                    <span class="me-2">Login</span>
+                    <img src="image_resources/loginicon.png" alt="Login Icon" width="20" height="20">
+                </button>
+                <button type="button" class="btn btn-orange px-4 rounded-pill"onclick="window.location.href='sign_in.html'">SIGN UP</button>
             </div>
         </div>
     </nav>
@@ -37,9 +39,8 @@
     <main class="container my-5 pt-4">
         <nav aria-label="breadcrumb" class="mb-4">
             <a href="index.html#products" class="text-decoration-none text-dark fw-bold">
-                <img src="image_resources/arrow_back.png" alt="Back" width="20" height="20" class="me-2">
-                Back to Products
-                </a>
+                <img src="image_resources/arrow_back.png" alt="Back" width="20" height="20"> Back to Products
+            </a>
         </nav>
 
         <div class="row g-5">
@@ -81,7 +82,6 @@
                 <a href="login.html" class="btn btn-orange w-100 py-3 fs-5 shadow">Customize this Product</a>
             </div>
         </div>
-        <br>
     </main>
 
     <footer id="contact" class="bg-dark text-white pt-5 pb-3">
