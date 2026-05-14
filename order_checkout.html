@@ -402,6 +402,10 @@
                         <div class="overflow-auto" style="max-height: 220px;" id="checkoutItems"></div>
 
                         <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Quantity</span>
+                             <span id="quantityValue">0</span>
+                        </div>
 
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal</span>
@@ -515,6 +519,9 @@
 
                 document.getElementById("subtotalValue")
                     .innerText = summary.subtotal;
+
+                document.getElementById("quantityValue")
+                    .innerText = summary.quantity;
 
                 document.getElementById("discountValue")
                     .innerText = summary.discount;
