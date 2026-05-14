@@ -36,28 +36,28 @@ try {
     $cart_id = $cart['cart_id'];
 
     // Optimized query to get all cart items with product and image info in one go
-    $sql = "
-        SELECT 
-            sci.cart_item_id,
-            sci.product_id,
-            sci.customization_id,
-            sci.unit_price,
-            p.product_name,
-            fu.image AS image
+   $sql = "
+   SELECT 
+   sci.cart_item_id,
+   sci.product_id,
+   sci.customization_id,
+   sci.unit_price,
+   p.product_name,
+   fu.image1 AS image
+   
+   FROM shopping_cart_items sci
+   LEFT JOIN products p
+        ON sci.product_id = p.product_id
 
-        FROM shopping_cart_items sci
-        INNER JOIN products p
-            ON sci.product_id = p.product_id
+    LEFT JOIN customization c
+        ON sci.customization_id = c.customization_id
 
-        INNER JOIN customization c
-            ON sci.customization_id = c.customization_id
+    LEFT JOIN file_upload fu
+        ON c.file_id = fu.file_id
 
-        INNER JOIN file_upload fu
-            ON c.file_id = fu.file_id
-
-        WHERE sci.cart_id = ?
-        ORDER BY sci.added_at DESC
-    ";
+    WHERE sci.cart_id = ?
+    ORDER BY sci.added_at DESC
+";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $cart_id);
