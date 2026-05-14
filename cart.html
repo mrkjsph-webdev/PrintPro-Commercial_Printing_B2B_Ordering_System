@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
-    <link href="bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
     <style>
@@ -361,7 +362,7 @@
 </head>
 
 <body>
-    <script src="bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Navigation content of the cart layout -->
     <header>
@@ -609,24 +610,6 @@
             </div>
         </div>
 
-        <!-- Checkout confirmation modal -->
-        <div class="modal fade" id="chkoutConfirmation" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                    </div>
-
-                    <div class="modal-body text-center">
-                        <p></p>
-                        <small class="text-muted"></small>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
     </main>
     <!-- Load Cart Items -->
     <script>
@@ -856,6 +839,7 @@
             }
 
             document.getElementById("customization_id").value = data.customization_id;
+
             document.getElementById("paperSize").value = data.paper_size;
             document.getElementById("gsm").value = data.gsm;
             document.getElementById("paperTexture").value = data.paper_texture;
@@ -870,6 +854,7 @@
 
             const payload = {
                 customization_id: document.getElementById("customization_id").value,
+
                 paper_size: document.getElementById("paperSize").value,
                 gsm: document.getElementById("gsm").value,
                 paper_texture: document.getElementById("paperTexture").value,
@@ -879,7 +864,7 @@
                     .value.replace("₱", "").replace(/,/g, "").trim()
             };
 
-            console.log("SENDING:", payload); 
+            console.log("SENDING:", payload); // DEBUG STEP
 
             const response = await fetch("update_customization.php", {
                 method: "POST",
@@ -909,7 +894,7 @@
 
             attachPriceListeners();
 
-            calculatePrice(); 
+            calculatePrice(); // initial safe default
         });
     </script>
     <!-- ORDER SUMMARY -->
@@ -941,12 +926,13 @@
 
                 const card = cb.closest(".card");
 
-                // Extract price and quantity from the card
+                /* get price */
                 const priceText =
                     card.querySelector(".card-text").innerText.replace("₱", "");
+
                 const price = parseFloat(priceText);
- 
-                // Try to get quantity from the edit modal's input field if available
+
+                /* quantity (default = 1 if not stored yet) */
                 const qtyInput = card.querySelector("input[type='number']");
                 const qty = qtyInput ? parseInt(qtyInput.value) : 1;
 
@@ -954,12 +940,12 @@
                 subtotal += price * qty;
             });
 
-            // apply discount
+            /* apply discount */
             const discountRate = getDiscountRate(totalQty);
             const discountAmount = subtotal * discountRate;
             const total = subtotal - discountAmount;
 
-            // update table
+            /* update table */
             const summaryRows =
                 document.querySelectorAll(".order-summary table b");
 
@@ -1006,22 +992,7 @@
                 document.querySelectorAll("#cartItems input[type='checkbox']:checked");
 
             if (checkedItems.length === 0) {
-                function showCheckoutModal(title, message) {
-
-                    const modalEl = document.getElementById("chkoutConfirmation");
-
-                    if (!modalEl) {
-                        alert(message);
-                        return;
-                    }
-
-                    modalEl.querySelector(".modal-title").innerText = title;
-                    modalEl.querySelector(".modal-body p").innerText = message;
-
-                    const modal = new bootstrap.Modal(modalEl);
-                    modal.show();
-                }
-                showCheckoutModal("No Items Selected", "Please select at least one item to proceed to checkout.");
+                alert("Please select at least one item.");
                 return;
             }
 
