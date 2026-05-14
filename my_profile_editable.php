@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile - PrintPro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="bootstrap.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -173,7 +172,7 @@
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap.bundle.js"></script>
     <!-- Navigation content of the cart layout -->
     <header>
         <nav class="navigation">
@@ -293,6 +292,28 @@
                 </div>
             </div>
         </div>
+
+        <!-- Save Changes Modal -->
+        <div class="modal fade" id="saveChanges" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+
+                    <div class="modal-body text-center">
+                        <p></p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="goBacktoProfile()">Back To Profile</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </main>
     <!-- Function to fetch and display user profile data -->
     <script>
@@ -364,14 +385,33 @@
         .then(res => res.json())
         .then(res => {
             if (res.status === "success") {
-                alert("Profile updated successfully!");
-                window.location.href = "my_profile.html";
+                showSaveChangesModal("Profile Updated", "Your profile has been successfully updated.");
             } else {
-                alert(res.message);
+                showSaveChangesModal("Update Failed", res.message);
             }
         })
         .catch(err => console.error(err));
     }
+
+    function showSaveChangesModal(title, message) {
+        const modalEl = document.getElementById("saveChanges");
+
+        if (!modalEl) {
+            alert(message);
+            return;
+        }
+
+        const modal = new bootstrap.Modal(modalEl);
+        modalEl.querySelector(".modal-title").textContent = title;
+        modalEl.querySelector(".modal-body p").textContent = message;
+        modal.show();
+    }
+    </script>
+
+    <script>
+        function goBacktoProfile() {
+            window.location.href = "my_profile.html";
+        }
     </script>
 </body>
 
