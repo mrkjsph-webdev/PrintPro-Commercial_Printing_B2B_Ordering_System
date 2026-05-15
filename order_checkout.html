@@ -304,7 +304,7 @@
 
                 <!-- Home icon -->
                 <li class="list">
-                    <a href="client_dashboard.html"><img src="image_resources/home-btn.png" alt="Home"></a>
+                    <a href="client_dashboard.php"><img src="image_resources/home-btn.png" alt="Home"></a>
                 </li>
 
                 <!-- User icon -->
@@ -441,7 +441,7 @@
                         </div>
 
                         <button type="button" class="btn btn-secondary w-100" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                            data-bs-target="#exampleModal" onclick="placeOrder()">
                             Place Order
                         </button>
 
@@ -470,9 +470,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary"
-                        onclick="window.location.href='order_details.html'">View Order Details</button>
+                        onclick="window.location.href='my_orders.html'">View Order Details</button>
                     <button type="button" class="btn btn-secondary"
-                        onclick="window.location.href='client_dashboard.html'">Back to Home</button>
+                        onclick="window.location.href='client_dashboard.php'">Back to Home</button>
                 </div>
             </div>
         </div>
@@ -573,6 +573,91 @@
         }
 
         loadCheckoutItems();
+    </script>
+    <!-- Order Checkout -->
+    <script>
+    async function placeOrder() {
+
+        const summary = JSON.parse(localStorage.getItem("orderSummary"));
+
+        if (!summary) {
+            alert("No order summary found.");
+            return;
+        }
+
+        const total_amount = parseFloat(
+            String(summary.total).replace(/[₱,]/g, "")
+        ) || 0;
+
+        if (total_amount <= 0) {
+            alert("Invalid total amount.");
+            return;
+        }
+
+        const payment_method =
+            document.getElementById("cash")?.checked ? "cash" :
+            document.getElementById("card")?.checked ? "credit card" :
+            "cash";
+
+
+        // PARSE NUMERIC VALUES
+        const quantity = parseInt(summary.quantity) || 0;
+        const subtotal = parseFloat(
+            String(summary.subtotal).replace(/[₱,]/g, "")
+        ) || 0;
+
+        const total_price = total_amount;
+
+
+        // GET CART ITEMS
+        const selectedItems =
+            JSON.parse(localStorage.getItem("selectedCartItems")) || [];
+
+        const cart_items = selectedItems.map(item => ({
+            cart_item_id: item.cart_item_id,
+            quantity: quantity,
+            subtotal: subtotal,
+            total_price: total_price
+        }));
+
+
+        try {
+            const response = await fetch("checkout_order.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    total_amount: total_amount,
+                    quantity: quantity,
+                    subtotal: subtotal,
+                    discount: parseFloat(
+                        String(summary.discount).replace(/[₱,]/g, "")
+                    ) || 0,
+                    payment_method: payment_method,
+
+                    cart_items: cart_items
+                })
+            });
+
+            const result = await response.json();
+
+            console.log(result);
+
+            if (result.status === "success") {
+
+                localStorage.removeItem("selectedCartItems");
+                localStorage.removeItem("orderSummary");
+
+            } else {
+                alert(result.message);
+            }
+
+        } catch (error) {
+            console.error("Checkout error:", error);
+            alert("Something went wrong while placing order.");
+        }
+    }
     </script>
 </body>
 
