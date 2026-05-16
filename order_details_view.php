@@ -187,7 +187,7 @@
 
                 <!-- Home icon -->
                 <li class="list">
-                    <a href="client_dashboard.html"><img src="image_resources/home-btn.png" alt="Home"></a>
+                    <a href="client_dashboard.php"><img src="image_resources/home-btn.png" alt="Home"></a>
                 </li>
 
                 <!-- User icon -->
@@ -218,7 +218,7 @@
 
 <div class="container mt-4">
 
-    <a href="client_dashboard.php" class="text-dark fw-bold"> 
+    <a href="my_orders.html" class="text-dark fw-bold"> 
         <img src="image_resources/arrow_back.png" alt="Back" width="20" height="20"> Back
     </a>
 
