@@ -382,7 +382,7 @@
     </main>
     <!-- Get Orders -->
     <script>
-    /* ---------- SEARCH DEBOUNCE ---------- */
+    // Utility function to debounce search input
     function debounce(func, delay = 400) {
         let timer;
         return function (...args) {
@@ -402,7 +402,7 @@
        
         let allOrders = [];
 
-        /* ---------- LOAD ORDERS FROM SERVER ---------- */
+        // Function to load orders from the server
         async function loadOrders() {
 
             try {
@@ -420,10 +420,10 @@
                     return;
                 }
 
-                /* SAVE ALL ORDERS */
+                // Store all orders for filtering
                 allOrders = data.data;
 
-                /* Render initially */
+                // Render the initial list of orders
                 renderOrders(allOrders);
 
             } catch (err) {
@@ -436,7 +436,7 @@
             }
         }
 
-        /* ---------- RENDER ORDERS ---------- */
+        // Function to render orders in the container
         function renderOrders(list) {
 
             container.innerHTML = "";
@@ -485,7 +485,7 @@
                 container.appendChild(card);
             });
 
-            /* Attach button events */
+            // Add event listeners to the "View Order Details" buttons
             document.querySelectorAll(".view-details-btn").forEach(btn => {
                 btn.addEventListener("click", function () {
                     const orderId = this.getAttribute("data-id");
@@ -495,7 +495,7 @@
             });
         }
 
-        /* ---------- SEARCH + FILTER (CLIENT SIDE) ---------- */
+        // Function to filter orders based on search input and dropdown selection
         function filterOrders() {
 
             const searchValue = searchInput.value.toLowerCase().trim();
@@ -505,12 +505,12 @@
 
                 const orderStatus = order.order_status.toLowerCase();
 
-                /* SEARCH MATCHES STATUS TEXT */
+                // SEARCH FILTER
                 const searchMatch =
                     searchValue === "" ||
                     orderStatus.includes(searchValue);
 
-                /* DROPDOWN FILTER */
+                // DROPDOWN STATUS FILTER
                 const statusMatch =
                     selectedStatus === "" ||
                     orderStatus === selectedStatus;
@@ -521,11 +521,11 @@
             renderOrders(filtered);
         }
 
-        /* ---------- EVENTS ---------- */
+        // Event listeners for search input and dropdown filter
         searchInput.addEventListener("input", debounce(filterOrders, 300));
         statusFilter.addEventListener("change", filterOrders);
 
-        /* ---------- INITIAL LOAD ---------- */
+        // Initial load of orders
         loadOrders();
 
     });
