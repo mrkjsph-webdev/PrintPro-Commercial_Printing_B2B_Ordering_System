@@ -361,10 +361,8 @@
                         <div class="col-md-5">
                             <select class="form-select border-2 search-input" id="productFilter">
                                 <option value="">All Status</option>
-                                <option value="Completed">Completed</option>
                                 <option value="Processing">Processing</option>
                                 <option value="Pending">Pending</option>
-                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
                     </div>
@@ -420,8 +418,11 @@
                     return;
                 }
 
-                // Store all orders for filtering
-                allOrders = data.data;
+                // Filter orders to only include "Processing" and "Pending" statuses
+                allOrders = data.data.filter(order => {
+                const status = order.order_status.toLowerCase();
+                return status === "processing" || status === "pending";
+            });
 
                 // Render the initial list of orders
                 renderOrders(allOrders);
