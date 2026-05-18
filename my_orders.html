@@ -361,8 +361,10 @@
                         <div class="col-md-5">
                             <select class="form-select border-2 search-input" id="productFilter">
                                 <option value="">All Status</option>
-                                <option value="Postcards">Processing</option>
-                                <option value="Posters">Pending</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Cancelled">Cancelled</option>
                             </select>
                         </div>
                     </div>
@@ -380,18 +382,31 @@
     </main>
     <!-- Get Orders -->
     <script>
+    /* ---------- SEARCH DEBOUNCE ---------- */
+    function debounce(func, delay = 400) {
+        let timer;
+        return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
 
         const searchInput = document.getElementById("userSearch");
         const statusFilter = document.getElementById("productFilter");
         const container = document.querySelector(".scroll-area .d-flex");
 
+       
+        let allOrders = [];
+
+        /* ---------- LOAD ORDERS FROM SERVER ---------- */
         async function loadOrders() {
-            const search = searchInput.value.trim();
-            const status = statusFilter.value.trim();
 
             try {
-                const res = await fetch(`get_orders.php?search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`);
+                const res = await fetch(`get_orders.php`);
                 const data = await res.json();
 
                 container.innerHTML = "";
@@ -405,47 +420,11 @@
                     return;
                 }
 
-                data.data.forEach(order => {
+                /* SAVE ALL ORDERS */
+                allOrders = data.data;
 
-                    const card = document.createElement("div");
-                    card.className = "order-card d-flex justify-content-between align-items-center p-3";
-
-                    card.innerHTML = `
-                        <div class="d-flex align-items-center gap-3">
-                            <div>
-                                <h6 class="mb-1 fw-bold">Order #${order.order_id}</h6>
-                                <small class="text-muted">Date: ${order.order_date}</small>
-                            </div>
-                        </div>
-
-                        <div class="text-md-end">
-                            <div class="${order.status_class}">
-                                ${order.order_status}
-                            </div>
-
-                            <div class="fw-bold mt-1">
-                                ₱${parseFloat(order.total_amount).toLocaleString(undefined, {
-                                    minimumFractionDigits: 2
-                                })}
-                            </div>
-
-                            <button class="btn-outline mt-2 view-details-btn"
-                                data-id="${order.order_id}">
-                                View Order Details
-                            </button>
-                        </div>
-                    `;
-
-                    container.appendChild(card);
-                });
-
-                // Attach click events AFTER rendering
-                document.querySelectorAll(".view-details-btn").forEach(btn => {
-                    btn.addEventListener("click", function () {
-                        const orderId = this.getAttribute("data-id");
-                        window.location.href = `order_details_view.php?order_id=${orderId}`;
-                    });
-                });
+                /* Render initially */
+                renderOrders(allOrders);
 
             } catch (err) {
                 console.error("Error loading orders:", err);
@@ -457,13 +436,100 @@
             }
         }
 
-        searchInput.addEventListener("input", loadOrders);
-        statusFilter.addEventListener("change", loadOrders);
+        /* ---------- RENDER ORDERS ---------- */
+        function renderOrders(list) {
 
+            container.innerHTML = "";
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        No orders found.
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach(order => {
+
+                const card = document.createElement("div");
+                card.className =
+                    "order-card d-flex justify-content-between align-items-center p-3";
+
+                card.innerHTML = `
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <h6 class="mb-1 fw-bold">Order #${order.order_id}</h6>
+                            <small class="text-muted">Date: ${order.order_date}</small>
+                        </div>
+                    </div>
+
+                    <div class="text-md-end">
+                        <div class="${order.status_class}">
+                            ${order.order_status}
+                        </div>
+
+                        <div class="fw-bold mt-1">
+                            ₱${parseFloat(order.total_amount).toLocaleString(undefined, {
+                                minimumFractionDigits: 2
+                            })}
+                        </div>
+
+                        <button class="btn-outline mt-2 view-details-btn"
+                            data-id="${order.order_id}">
+                            View Order Details
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            /* Attach button events */
+            document.querySelectorAll(".view-details-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const orderId = this.getAttribute("data-id");
+                    window.location.href =
+                        `order_details_view.php?order_id=${orderId}`;
+                });
+            });
+        }
+
+        /* ---------- SEARCH + FILTER (CLIENT SIDE) ---------- */
+        function filterOrders() {
+
+            const searchValue = searchInput.value.toLowerCase().trim();
+            const selectedStatus = statusFilter.value.toLowerCase().trim();
+
+            const filtered = allOrders.filter(order => {
+
+                const orderStatus = order.order_status.toLowerCase();
+
+                /* SEARCH MATCHES STATUS TEXT */
+                const searchMatch =
+                    searchValue === "" ||
+                    orderStatus.includes(searchValue);
+
+                /* DROPDOWN FILTER */
+                const statusMatch =
+                    selectedStatus === "" ||
+                    orderStatus === selectedStatus;
+
+                return searchMatch && statusMatch;
+            });
+
+            renderOrders(filtered);
+        }
+
+        /* ---------- EVENTS ---------- */
+        searchInput.addEventListener("input", debounce(filterOrders, 300));
+        statusFilter.addEventListener("change", filterOrders);
+
+        /* ---------- INITIAL LOAD ---------- */
         loadOrders();
 
     });
-    </script>   
+    </script>
 </body>
 
 </html>
