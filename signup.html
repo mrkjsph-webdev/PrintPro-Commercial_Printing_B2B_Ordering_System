@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="icon" type="image/x-icon" href="image_resources/logo.png">
+    <link href="bootstrap.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #161490, #4D57E4);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .register-card {
+            max-width: 600px;
+            border-radius: 20px;
+        }
+
+        h2 {
+            color: #161490;
+            font-weight: 600;
+        }
+
+        p {
+            color: #666;
+        }
+
+        a:hover {
+            color: #FF7800;
+        }
+
+        .card {
+            border-radius: 15px;
+            padding: 40px 30px;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #FF7800;
+            border-color: #FF7800;
+            font-weight: 600;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #e66f00;
+            border-color: #e66f00;
+        }
+
+        .index {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .checkbox label {
+            margin-left: 5px;
+        }
+
+        .form-check {
+            padding-left: 30px;
+        }
+
+        .form-check-label {
+            margin-left: 5px;
+            margin-top: 2px;
+        }
+
+        .responsive-alert {
+            width: 90%;
+            max-width: 500px;
+        }
+
+        @media (max-width: 768px) {
+
+            .card-body {
+                padding: 25px 20px !important;
+            }
+
+            .form-control,
+            .form-select {
+                height: 54px;
+                font-size: 14px;
+            }
+
+            .btn-primary {
+                padding: 14px;
+            }
+
+            .index {
+                font-size: 14px;
+            }
+
+            body {
+                padding-top: 20px;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body class="justify-content-center align-items-center bg-light" style="font-family: 'Poppins', sans-serif;">
+
+    <div class="container mt-5 py-4">
+
+        <!-- Back Button -->
+        <a class="index text-decoration-none d-inline-block mb-3" href="login.html">
+            ← Back to Login
+        </a><br>
+
+        <!-- Alerts -->
+        <div id="alertBox"
+            class="alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow responsive-alert">
+        </div>
+
+        <div id="emptyBox"
+            class="alert alert-warning position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow responsive-alert">
+        </div>
+
+        <!-- Card -->
+        <div class="card mx-auto shadow border-0 register-card">
+
+            <div class="card-body p-4 p-md-5">
+
+                <h2 class="text-center mb-2">
+                    CREATE AN ACCOUNT
+                </h2>
+
+                <p class="text-center text-muted mb-4">
+                    Get in touch with us to start browsing.
+                </p>
+
+                <form action="signup.php" method="POST" class="row g-3" novalidate>
+
+                    <!-- First Name -->
+                    <div class="col-12 col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                placeholder="First Name" required>
+                            <label for="firstName">First Name</label>
+                        </div>
+                    </div>
+
+                    <!-- Middle Initial -->
+                    <div class="col-12 col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="middleInitial" name="middleInitial"
+                                placeholder="Middle Initial" maxlength="2">
+                            <label for="middleInitial">Middle Initial</label>
+                        </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-12 col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                placeholder="Last Name" required>
+                            <label for="lastName">Last Name</label>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
+                                required>
+                            <label for="email">Email Address</label>
+                        </div>
+                    </div>
+                    <!-- Contact -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="contact" name="contact"
+                                placeholder="Contact Number" required>
+                            <label for="contact">Contact Number</label>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+
+                    <!-- Occupation -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="occupation" name="occupation" required>
+                                <option value="" disabled selected>Select Occupation</option>
+                                <option value="Business Owner">Business Owner</option>
+                                <option value="Freelancer">Freelancer</option>
+                                <option value="Employee">Employee</option>
+                                <option value="Part-Timer">Part-Timer</option>
+                                <option value="Student">Student</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Other">Other</option>
+
+                            </select>
+
+                            <label for="occupation">Occupation</label>
+
+                        </div>
+                    </div>
+
+                    <!-- Show Password -->
+                    <div class="col-12">
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="form-check-input" id="showPassword">
+
+                            <label class="form-check-label" for="showPassword">
+                                Show Password
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100 py-3 fw-semibold">
+                            CREATE ACCOUNT
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script src="bootstrap.bundle.js"></script>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const showPassword = document.getElementById('showPassword');
+        showPassword.addEventListener('change', function () {
+            passwordInput.type = this.checked ? 'text' : 'password';
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get("error");
+        const emptyFields = params.get("emptyFields");
+
+        if (emptyFields) {
+            const emptyBox = document.getElementById("emptyBox");
+            emptyBox.classList.remove("d-none");
+            emptyBox.innerText = "Please fill in all fields.";
+            setTimeout(() => { emptyBox.classList.add("d-none"); }, 4000);
+        }
+        if (error) {
+            const alertBox = document.getElementById("alertBox");
+            alertBox.classList.remove("d-none");
+            alertBox.innerText = error;
+            setTimeout(() => { alertBox.classList.add("d-none"); }, 4000);
+        }
+    </script>
+</body>
+
+</html>

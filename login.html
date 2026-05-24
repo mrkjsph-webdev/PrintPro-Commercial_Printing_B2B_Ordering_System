@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <link rel="icon" type="image/x-icon" href="image_resources/logo.png">
+  <link href="bootstrap.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Mina:wght@400;700&family=Poppins:wght@300;400;600;800&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #161490, #4D57E4);
+    }
+
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      color: #161490;
+      font-weight: 600;
+    }
+
+    p {
+      color: #666;
+    }
+
+    a:hover {
+      color: #FF7800;
+    }
+
+    .card {
+      border-radius: 15px;
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #007bff;
+    }
+
+    .btn-primary {
+      background-color: #FF7800;
+      border-color: #FF7800;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background-color: #e66f00;
+      border-color: #e66f00;
+    }
+
+    .index {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .register a {
+      color: #007bff;
+      font-weight: 500;
+    }
+
+    .register a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding-top: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body class="justify-content-center align-items-center bg-light" style="font-family: 'Poppins', sans-serif;">
+  <div class="container mt-5 py-4">
+    <a class="index text-decoration-none m-0" href="index.html">← Back</a><br>
+    <!-- Alert boxes for error and success messages -->
+    <div id="alertBox" class="alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow"
+      style="z-index: 9999; width: 500px;">
+    </div>
+    <div id="successBox" class="alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow"
+      style="z-index: 9999; width: 500px;">
+    </div>
+    <div id="signupSuccessBox"
+      class="alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow"
+      style="z-index: 9999; width: 500px;">
+    </div>
+    <div id="emptyBox" class="alert alert-warning position-fixed top-0 start-50 translate-middle-x mt-3 d-none shadow"
+      style="z-index: 9999; width: 500px;">
+    </div>
+
+    <br>
+    <!-- Login form -->
+    <div class="card py-5 mx-auto shadow border-0" style="max-width: 600px;">
+      <div class="card-body">
+        <h2 class="text-center py-1">WELCOME BACK!</h2>
+        <p class="text-center">Login to your account.</p>
+
+        <form action="login.php" method="POST" novalidate>
+          <form>
+            <div class="form-floating mt-4 mb-3">
+              <input type="email" name="email" class="form-control" id="email" id="floatingInput"
+                placeholder="Email address">
+              <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating mt-4 mb-3">
+              <input type="password" name="user_password" class="form-control" id="user_password" id="floatingPassword"
+                placeholder="Password">
+              <label for="floatingPassword">Password</label>
+            </div>
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+              <div class="form-check m-0">
+                <input type="checkbox" class="form-check-input" id="showPassword">
+                <label class="form-check-label" for="showPassword">Show Password</label>
+              </div>
+              <a href="reset_password.html" class="text-decoration-none">Reset Password</a>
+            </div>
+
+            <div class="d-grid gap-3 col-8 mx-auto mt-4">
+              <button type="submit" class="btn btn-primary">LOGIN</button>
+            </div>
+          </form>
+
+          <div class="register py-3 text-center">
+            Don't have an account?
+            <a class="text-decoration-none" href="signup.html">Register here</a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById('user_password');
+    const showPassword = document.getElementById('showPassword');
+    showPassword.addEventListener('change', function () {
+      passwordInput.type = this.checked ? 'text' : 'password';
+    });
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+    const emptyFields = params.get("emptyFields");
+    if (error) {
+      const alertBox = document.getElementById("alertBox");
+      alertBox.classList.remove("d-none");
+      alertBox.innerText = error;
+      setTimeout(() => { alertBox.classList.add("d-none"); }, 4000);
+    }
+    if (emptyFields) {
+      const emptyBox = document.getElementById("emptyBox");
+      emptyBox.classList.remove("d-none");
+      emptyBox.innerText = "Please fill in all fields.";
+      setTimeout(() => { emptyBox.classList.add("d-none"); }, 4000);
+    }
+    if (params.get("reset") === "success") {
+      const successBox = document.getElementById("successBox");
+      successBox.classList.remove("d-none");
+      successBox.innerText = "Password reset successfully! Please log in.";
+      setTimeout(() => { successBox.classList.add("d-none"); }, 4000);
+    }
+    if (params.get("signup") === "success") {
+      const signupSuccessBox = document.getElementById("signupSuccessBox");
+      signupSuccessBox.classList.remove("d-none");
+      signupSuccessBox.innerText = "Account created successfully! Please log in.";
+      setTimeout(() => { signupSuccessBox.classList.add("d-none"); }, 4000);
+    }
+  </script>
+
+</body>
+
+</html>
