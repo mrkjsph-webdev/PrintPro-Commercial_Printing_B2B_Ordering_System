@@ -298,6 +298,35 @@ $cart_count = $row['cart_count'] ?? 0;
                 font-size: 0.85rem;
             }
         }
+        
+        #liveToast {
+            background-color: #3A3B7B;
+            /* same as navbar */
+            color: white;
+        }
+
+        #liveToast .toast-header {
+            background-color: #3A3B7B;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #liveToast .toast-body {
+            color: white;
+        }
+
+        #liveToast .btn-close {
+            filter: invert(1);
+            /* makes X button white */
+        }
+
+        #liveToast small {
+            color: white !important;
+        }
+
+        #liveToast strong {
+            color: white !important;
+        }
     </style>
 </head>
 
