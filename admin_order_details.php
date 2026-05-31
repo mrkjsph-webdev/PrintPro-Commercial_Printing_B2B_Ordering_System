@@ -17,6 +17,7 @@ SELECT
     o.order_id,
     o.order_date,
     o.order_status,
+    o.payment_status,
 
     oc.payment_method,
     oc.delivery_method,
@@ -457,6 +458,21 @@ function e($str) {
             color: #dc2626;
             font-weight: 600;
         }
+
+        .payment-paid {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .payment-unpaid {
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        .payment-refunded {
+            color: #dc2626;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -604,6 +620,30 @@ function e($str) {
 
                                         <?= e(ucfirst($order['order_status'])); ?>
 
+                                    </span>
+                                </p>
+                                <?php
+                                
+                                $paymentClass = "";
+                                switch(strtolower($order['payment_status'])) {
+                                case "paid":
+                                    $paymentClass = "payment-paid";
+                                break;
+                                
+                                case "refunded":
+                                    $paymentClass = "payment-refunded";
+                                break;
+                                
+                                default:
+                                $paymentClass = "payment-unpaid";
+                                }
+                                ?>
+
+                                <p class="label">
+                                    Payment Status
+
+                                    <span class="value <?= $paymentClass ?> paymentStatusText">
+                                        <?= e(ucfirst($order['payment_status'])); ?>
                                     </span>
                                 </p>
 
@@ -1251,6 +1291,38 @@ function e($str) {
                         let json = JSON.parse(data);
 
                         if (json.success) {
+                            if (json.payment_status) {
+
+                                document.querySelectorAll(".paymentStatusText")
+                                    .forEach(el => {
+
+                                        el.innerText =
+                                            json.payment_status.charAt(0).toUpperCase() +
+                                            json.payment_status.slice(1);
+
+                                        el.classList.remove(
+                                            "payment-paid",
+                                            "payment-unpaid",
+                                            "payment-refunded"
+                                        );
+
+                                        if (json.payment_status === "paid") {
+
+                                            el.classList.add("payment-paid");
+
+                                        } else if (json.payment_status === "refunded") {
+
+                                            el.classList.add("payment-refunded");
+
+                                        } else {
+
+                                            el.classList.add("payment-unpaid");
+
+                                        }
+
+                                    });
+
+                            }
 
                             document.getElementById("statusMessage").innerText =
                                 "Order status updated successfully!";
@@ -1273,7 +1345,6 @@ function e($str) {
                                 if (status === "pending") {
 
                                     statusText.classList.add("status-pending");
-
                                 } else if (status === "processing") {
 
                                     statusText.classList.add("status-processing");
@@ -1289,6 +1360,7 @@ function e($str) {
                                 } else if (status === "cancelled") {
 
                                     statusText.classList.add("status-cancelled");
+
 
                                 }
 
