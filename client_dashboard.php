@@ -285,6 +285,19 @@ $cart_count = $row['cart_count'] ?? 0;
 
             line-height: 1;
         }
+        @media (max-width: 768px) {
+            .template-img {
+                height: 120px;
+            }
+            
+            .template-card h4 {
+                font-size: 1rem;
+            }
+
+            .btn-orange {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 
@@ -349,20 +362,20 @@ $cart_count = $row['cart_count'] ?? 0;
 
         <!-- Action Cards (My Orders, Order History, My Profile) -->
         <div class="px-4 px-md-5 mt-4">
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row g-3">
+                <div class="col-6 col-md-4">
                     <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
                         <img src="image_resources/package_order.png" alt="User" height="32">
                         <span onclick="window.location.href='my_orders.html'">My Orders</span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-6 col-md-4">
                     <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
                         <img src="image_resources/history.png" alt="User" height="32">
                         <span onclick="window.location.href='order_history.html'">Order History</span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4">
                     <div class="card-btn text-white p-4 d-flex align-items-center gap-3">
                         <img src="image_resources/profile.png" alt="User" height="32">
                         <span onclick="window.location.href='my_profile.html'">My Profile</span>
@@ -386,7 +399,7 @@ $cart_count = $row['cart_count'] ?? 0;
             <!-- Search + Filter -->
             <div class="filter-section">
                 <div class="row g-3">
-                    <div class="col-md-7">
+                    <div class="col-7 col-md-7">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0 border-2"><span
                                     class="material-symbols-outlined text-muted">search</span></span>
@@ -394,15 +407,13 @@ $cart_count = $row['cart_count'] ?? 0;
                                 placeholder="Search for product template to customize..." id="userSearch">
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-5 col-md-5">
                         <select class="form-select border-2 search-input" id="productFilter">
-                            <option value="">All Product Templates</option>
-                            <option value="Flyers">Flyers</option>
-                            <option value="Postcards">Postcards</option>
-                            <option value="Posters">Posters</option>
-                            <option value="Business Cards">Business Cards</option>
-                            <option value="Brochures">Brochures</option>
-                            <option value="Others">Others</option>
+                               <option value="">All Product Templates</option>
+                               <option value="Marketing Materials">Marketing Materials</option>
+                               <option value="Business & Corporate">Business & Corporate</option>
+                               <option value="Events">Events</option>
+                               <option value="Publication Covers">Publication Covers</option>
                         </select>
                     </div>
                 </div>
@@ -411,7 +422,7 @@ $cart_count = $row['cart_count'] ?? 0;
             <!-- Templates Grid (Bootstrap Cards) -->
             <div class="row g-4">
                 <!-- Flyers -->
-                <div class="col-md-4 template-item" data-category="Flyers">
+                <div class="col-6 col-md-4 template-item" data-category="Marketing Materials">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/flyers.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Flyers</h4>
@@ -420,7 +431,7 @@ $cart_count = $row['cart_count'] ?? 0;
                     </div>
                 </div>
                 <!-- Postcards -->
-                <div class="col-md-4 template-item" data-category="Postcards">
+                <div class="col-6 col-md-4 template-item" data-category="Marketing Materials">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/postcards.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Postcards</h4>
@@ -429,7 +440,7 @@ $cart_count = $row['cart_count'] ?? 0;
                     </div>
                 </div>
                 <!-- Posters -->
-                <div class="col-md-4 template-item" data-category="Posters">
+                <div class="col-6 col-md-4 template-item" data-category="Marketing Materials">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/posters.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Posters</h4>
@@ -438,7 +449,7 @@ $cart_count = $row['cart_count'] ?? 0;
                     </div>
                 </div>
                 <!-- Business Cards -->
-                <div class="col-md-4 template-item" data-category="Business Cards">
+                <div class="col-6 col-md-4 template-item" data-category="Business & Corporate">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/businesscards.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Business Cards</h4>
@@ -447,7 +458,7 @@ $cart_count = $row['cart_count'] ?? 0;
                     </div>
                 </div>
                 <!-- Brochures -->
-                <div class="col-md-4 template-item" data-category="Brochures">
+                <div class="col-6 col-md-4 template-item" data-category="Marketing Materials">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/brochure.avif" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Brochures</h4>
@@ -456,7 +467,7 @@ $cart_count = $row['cart_count'] ?? 0;
                     </div>
                 </div>
                 <!-- Invitations -->
-                <div class="col-md-4 template-item" data-category="Others">
+                <div class="col-6 col-md-4 template-item" data-category="Events">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/invitation.webp" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Invitations</h4>
@@ -464,7 +475,7 @@ $cart_count = $row['cart_count'] ?? 0;
                             Details</button>
                     </div>
                 </div>
-                <div class="col-md-4 template-item" data-category="Others">
+                <div class="col-6 col-md-4 template-item" data-category="Publication Covers">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/magazine.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Magazine Covers</h4>
@@ -472,7 +483,7 @@ $cart_count = $row['cart_count'] ?? 0;
                             Details</button>
                     </div>
                 </div>
-                <div class="col-md-4 template-item" data-category="Others">
+                <div class="col-6 col-md-4 template-item" data-category="Business & Corporate">
                     <div class="template-card p-3 h-100">
                         <img src="image_resources/resume.png" class="template-img mb-3">
                         <h4 class="text-primary fw-bold mb-2" style="color: #0088FF !important;">Resume</h4>
