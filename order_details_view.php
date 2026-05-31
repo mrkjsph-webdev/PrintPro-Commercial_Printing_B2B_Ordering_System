@@ -187,12 +187,28 @@
             color: #16a34a;
             font-weight: 600;
         }
+
         .status-ready {
             color: #4457c7;
             font-weight: 600;
         }
 
         .status-cancelled {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .payment-paid {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .payment-unpaid {
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        .payment-refunded {
             color: #dc2626;
             font-weight: 600;
         }
@@ -219,7 +235,7 @@
 
                 <!-- User icon -->
                 <li class="list">
-                    <a href="my_profile.html"><img src="image_resources/user-btn.png" alt="User"></a>
+                    <a href="my_profile.php"><img src="image_resources/user-btn.png" alt="User"></a>
                 </li>
 
                 <!-- Menu dropdown -->
@@ -245,7 +261,7 @@
 
     <div class="container mt-4">
 
-        <a href="my_orders.html" class="text-dark fw-bold">
+        <a href="my_orders.php" class="text-dark fw-bold">
             <img src="image_resources/arrow_back.png" alt="Back" width="20" height="20"> Back
         </a>
 
@@ -292,8 +308,28 @@
                         <p><b>Contact:</b>
                             <?= e($order['contact']) ?>
                         </p>
-                        <p><b>Payment:</b>
-                            <?= e($order['payment_status']) ?>
+                        <?php
+                        $paymentClass = "";
+                        switch(strtolower(trim($order['payment_status']))) {
+                            
+                            case "paid":
+                                $paymentClass = "payment-paid";
+                            break;
+                                
+                            case "refunded":
+                                $paymentClass = "payment-refunded";
+                            break;
+                                
+                            default:
+                                $paymentClass = "payment-unpaid";
+                        }
+                        ?>
+
+                        <p>
+                            <b>Payment:</b>
+                            <span class="<?= $paymentClass ?>">
+                                <?= e(ucfirst($order['payment_status'])) ?>
+                            </span>
                         </p>
                         <p><b>Delivery:</b> Pickup Only</p>
                     </small>
@@ -318,6 +354,9 @@
                             break;                        
                         case "processing":
                             $statusClass = "status-processing";
+                            break;
+                        case "ready for pickup":
+                            $statusClass = "status-ready";
                             break;
 
                         default:
@@ -542,7 +581,7 @@
                         <!-- HEADER -->
                         <div class="receipt-header mb-4">
 
-                             <h6 class="section-title">
+                            <h6 class="section-title">
                                 PrintPro
                             </h6>
                             <p>
