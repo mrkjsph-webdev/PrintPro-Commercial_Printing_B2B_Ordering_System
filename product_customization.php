@@ -283,7 +283,8 @@ $textureResult = mysqli_query($conn, $textureQuery);
       background-color: #f1f5ff;
     }
 
-    #previewImage {
+    #previewImage,
+    #previewImage2 {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
@@ -308,7 +309,7 @@ $textureResult = mysqli_query($conn, $textureQuery);
 
         <!-- Cart icon -->
         <li class="list">
-          <a href="cart.html"><img src="image_resources/shopping_cart.png" alt="Cart"></a>
+          <a href="cart.php"><img src="image_resources/shopping_cart.png" alt="Cart"></a>
         </li>
 
         <!-- Menu dropdown -->
@@ -346,6 +347,7 @@ $textureResult = mysqli_query($conn, $textureQuery);
           <div class="d-flex justify-content-center">
             <div class="main-preview upload-box" id="uploadBox">
               <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" hidden>
+
               <div id="uploadContent" class="text-center">
                 <img src="image_resources/upload_image.png">
                 <p class="text-muted mb-1">Click to upload image</p>
@@ -355,6 +357,9 @@ $textureResult = mysqli_query($conn, $textureQuery);
               <img id="previewImage" class="d-none" alt="Product Preview">
             </div>
           </div>
+
+          <!-- PLACEHOLDER GOES HERE -->
+          <div id="imageWarning" class="mt-2"></div>
 
           <!-- Back to Back Printing - Second Image Upload (Hidden by default) -->
           <div id="backToBackSection" class="mt-4 d-none">
@@ -370,6 +375,7 @@ $textureResult = mysqli_query($conn, $textureQuery);
                 <img id="previewImage2" class="d-none" alt="Back Side Preview">
               </div>
             </div>
+            <div id="imageWarning2" class="mt-2"></div>
           </div>
 
         </div>
@@ -445,11 +451,13 @@ $textureResult = mysqli_query($conn, $textureQuery);
                 </label>
               </div>
             </div>
+            <label class="field-label" for="paperTexture">Copies:</label>
             <div class="input-group" style="width: 150px;">
               <button class="btn btn-outline-secondary" type="button" onclick="decrease()">−</button>
               <input type="text" class="form-control text-center" id="qty" value="1">
               <button class="btn btn-outline-secondary" type="button" onclick="increase()">+</button>
             </div>
+            <br>
             <div class="price-box mb-4">
               <label class="field-label" for="total_price">Total Price</label>
               <input id="total_price" class="form-control" type="text" value="₱0" readonly />
@@ -504,18 +512,101 @@ $textureResult = mysqli_query($conn, $textureQuery);
     });
 
     fileInput.addEventListener("change", function () {
+
       const file = this.files[0];
 
       if (!file) return;
+
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
         alert("Only PNG and JPG allowed.");
+        this.value = "";
+        document.getElementById("imageWarning").innerHTML = "";
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = e => {
+
+      reader.onload = function (e) {
+
+        const img = new Image();
+
+        img.onload = function () {
+
+          const megapixels = (img.width * img.height) / 1000000;
+          const dimensions = `${img.width} × ${img.height}px`;
+          const fileSizeMB = file.size / (1024 * 1024);
+
+          let qualityMessage = "";
+
+          if (fileSizeMB < 0.5) {
+
+            qualityMessage = `<div class="alert alert-danger py-2 mt-2">
+              Low Quality
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              This image appears highly compressed and may lose print quality.
+              </div>
+            `;
+
+          } else if (fileSizeMB < 1) {
+
+            qualityMessage = `<div class="alert alert-warning py-2 mt-2">
+               Poor Quality
+               <br>
+               Image Resolution: ${dimensions}
+               <br>
+               Megapixels: (${megapixels.toFixed(2)} MP)
+               <br>
+               File Size: ${fileSizeMB.toFixed(2)} MB
+               <br>
+               This image may appear blurry when printed.
+               </div>
+            `;
+
+          } else if (fileSizeMB < 2) {
+
+            qualityMessage = `<div class="alert alert-warning py-2 mt-2">
+              Fair Quality
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              Suitable for small prints.
+              </div>
+            `;
+
+          } else {
+
+            qualityMessage = `<div class="alert alert-success py-2 mt-2">
+              Excellent Quality 
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              Recommended for printing.
+              </div>
+            `;
+
+          }
+
+          document.getElementById("imageWarning").innerHTML = qualityMessage;
+        };
+
+        img.src = e.target.result;
+
         previewImage.src = e.target.result;
         previewImage.classList.remove("d-none");
         uploadContent.style.display = "none";
@@ -538,6 +629,8 @@ $textureResult = mysqli_query($conn, $textureQuery);
         document.getElementById("fileInput2").value = "";
         document.getElementById("previewImage2").classList.add("d-none");
         document.getElementById("uploadContent2").style.display = "block";
+        document.getElementById("imageWarning2").innerHTML = "";
+
       }
     }
 
@@ -552,18 +645,102 @@ $textureResult = mysqli_query($conn, $textureQuery);
     });
 
     fileInput2.addEventListener("change", function () {
+
       const file = this.files[0];
 
       if (!file) return;
+
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
         alert("Only PNG and JPG allowed.");
+        this.value = "";
+        document.getElementById("imageWarning2").innerHTML = "";
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = e => {
+
+      reader.onload = function (e) {
+
+        const img = new Image();
+
+        img.onload = function () {
+
+          const megapixels = (img.width * img.height) / 1000000;
+          const dimensions = `${img.width} × ${img.height}px`;
+          const fileSizeMB = file.size / (1024 * 1024);
+
+          let qualityMessage = "";
+
+          // Check file size first
+          if (fileSizeMB < 0.5) {
+
+            qualityMessage = `<div class="alert alert-danger py-2 mt-2">
+              Low Quality
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              This image appears highly compressed and may lose print quality.
+              </div>
+            `;
+
+          } else if (fileSizeMB < 1) {
+
+            qualityMessage = `<div class="alert alert-danger py-2 mt-2">
+               Poor Quality
+               <br>
+               Image Resolution: ${dimensions}
+               <br>
+               Megapixels: (${megapixels.toFixed(2)} MP)
+               <br>
+               File Size: ${fileSizeMB.toFixed(2)} MB
+               <br>
+               This image may appear blurry when printed.
+               </div>
+            `;
+
+          } else if (fileSizeMB < 2) {
+
+            qualityMessage = `<div class="alert alert-warning py-2 mt-2">
+              Fair Quality
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              Suitable for small prints.
+              </div>
+            `;
+
+          } else {
+
+            qualityMessage = `<div class="alert alert-success py-2 mt-2">
+              Excellent Quality
+              <br>
+              Image Resolution: ${dimensions}
+              <br>
+              Megapixels: (${megapixels.toFixed(2)} MP)
+              <br>
+              File Size: ${fileSizeMB.toFixed(2)} MB
+              <br>
+              Recommended for printing.
+              </div>
+            `;
+
+          }
+
+          document.getElementById("imageWarning2").innerHTML = qualityMessage;
+        };
+
+        img.src = e.target.result;
+
         previewImage2.src = e.target.result;
         previewImage2.classList.remove("d-none");
         uploadContent2.style.display = "none";
