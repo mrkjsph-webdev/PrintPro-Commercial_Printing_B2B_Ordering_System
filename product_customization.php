@@ -487,11 +487,11 @@ $textureResult = mysqli_query($conn, $textureQuery);
             <img src="image_resources/order-placed-checked.png" alt="Success" class="img-fluid mb-3"
               style="max-width: 100px;">
             <b> Product Added to the Cart!</b>
-            <p class="ThankYou"> Your customized product will proceed to your <a href="cart.html">Cart</a>.
+            <p class="ThankYou"> Your customized product will proceed to your <a href="cart.php">Cart</a>.
               You can customize more products before placing your orders!</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='cart.html'">View My
+            <button type="button" class="btn btn-primary" onclick="window.location.href='cart.php'">View My
               Cart</button>
             <button type="button" class="btn btn-orange" data-bs-dismiss="modal"
               onclick="window.location.href='client_dashboard.php'">Close</button>
@@ -499,6 +499,34 @@ $textureResult = mysqli_query($conn, $textureQuery);
         </div>
       </div>
     </div>
+    <!-- Validation Modal -->
+    <div class="modal fade" id="validationModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Notification</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body" id="validationMessage">
+                Message goes here.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal">
+                    OK
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
   </main>
   <!-- SCRIPTS -->
   <script>
@@ -520,7 +548,7 @@ $textureResult = mysqli_query($conn, $textureQuery);
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
-        alert("Only PNG and JPG allowed.");
+        showValidationModal("Only PNG and JPG allowed.");
         this.value = "";
         document.getElementById("imageWarning").innerHTML = "";
         return;
@@ -653,7 +681,7 @@ $textureResult = mysqli_query($conn, $textureQuery);
       const allowed = ["image/png", "image/jpeg"];
 
       if (!allowed.includes(file.type)) {
-        alert("Only PNG and JPG allowed.");
+        showValidationModal("Only PNG and JPG allowed.");
         this.value = "";
         document.getElementById("imageWarning2").innerHTML = "";
         return;
@@ -840,6 +868,17 @@ $textureResult = mysqli_query($conn, $textureQuery);
     // initial calculation
     calculatePrice();
   </script>
+<script>
+function showValidationModal(message) {
+    document.getElementById("validationMessage").textContent = message;
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("validationModal")
+    );
+
+    modal.show();
+}
+</script>
   <!-- Add to Cart -->
   <script src="addToCart.js"></script>
 </body>
