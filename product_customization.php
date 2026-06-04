@@ -501,32 +501,28 @@ $textureResult = mysqli_query($conn, $textureQuery);
     </div>
     <!-- Validation Modal -->
     <div class="modal fade" id="validationModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Notification</h5>
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                </button>
-            </div>
+          <div class="modal-header">
+            <h5 class="modal-title">Notification</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal">
+            </button>
+          </div>
 
-            <div class="modal-body" id="validationMessage">
-                Message goes here.
-            </div>
+          <div class="modal-body" id="validationMessage">
+            Message goes here.
+          </div>
 
-            <div class="modal-footer">
-                <button type="button"
-                        class="btn btn-primary"
-                        data-bs-dismiss="modal">
-                    OK
-                </button>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+              OK
+            </button>
+          </div>
 
         </div>
+      </div>
     </div>
-</div>
   </main>
   <!-- SCRIPTS -->
   <script>
@@ -839,7 +835,23 @@ $textureResult = mysqli_query($conn, $textureQuery);
         default: textureExtra = 0;
       }
 
-      let total = (basePrice + gsmExtra + textureExtra) * qty;
+      let unitPrice = basePrice + gsmExtra + textureExtra;
+
+      // Bulk pricing
+      if (qty >= 100) {
+        unitPrice *= 0.80;
+      }
+      else if (qty >= 50) {
+        unitPrice *= 0.85;
+      }
+      else if (qty >= 25) {
+        unitPrice *= 0.90;
+      }
+      else if (qty >= 10) {
+        unitPrice *= 0.95;
+      }
+
+      let total = unitPrice * qty;
 
       // FINAL SAFE OUTPUT
       document.getElementById("total_price").value =
@@ -868,17 +880,17 @@ $textureResult = mysqli_query($conn, $textureQuery);
     // initial calculation
     calculatePrice();
   </script>
-<script>
-function showValidationModal(message) {
-    document.getElementById("validationMessage").textContent = message;
+  <script>
+    function showValidationModal(message) {
+      document.getElementById("validationMessage").textContent = message;
 
-    const modal = new bootstrap.Modal(
+      const modal = new bootstrap.Modal(
         document.getElementById("validationModal")
-    );
+      );
 
-    modal.show();
-}
-</script>
+      modal.show();
+    }
+  </script>
   <!-- Add to Cart -->
   <script src="addToCart.js"></script>
 </body>
