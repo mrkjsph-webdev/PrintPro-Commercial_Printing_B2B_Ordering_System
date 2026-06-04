@@ -11,7 +11,7 @@ async function uploadBothImages() {
     console.log("checkbox.checked:", checkbox?.checked);
 
     if (!fileInput1?.files?.[0]) {
-        alert("Please upload a front image.");
+        showValidationModal("Please upload a front image.");
         return false;
     }
 
@@ -19,7 +19,7 @@ async function uploadBothImages() {
     const backFile = (checkbox?.checked) ? fileInput2?.files?.[0] : null;
 
     if (checkbox?.checked && !backFile) {
-        alert("Back to Back printing is checked. Please upload a back image.");
+        showValidationModal("Back to Back printing is checked. Please upload a back image.");
         return false;
     }
 
@@ -46,12 +46,12 @@ async function uploadBothImages() {
             console.log("Upload successful, file_id:", window.uploadedFileId);
             return true;
         } else {
-            alert("Upload Error: " + result.message);
+            showValidationModal("Upload Error: " + result.message);
             return false;
         }
     } catch (err) {
         console.error("Fetch error:", err);
-        alert("Upload failed: " + err.message);
+        showValidationModal("Upload failed: " + err.message);
         return false;
     }
 }
@@ -68,13 +68,13 @@ async function addToCart() {
     }
 
     if (!window.uploadedFileId) {
-        alert("Please upload a file first.");
+        showValidationModal("Please upload a file first.");
         return;
     }
 
     const product_id = sessionStorage.getItem("product_id");
     if (!product_id) {
-        alert("Product ID missing. Please select a product again.");
+        showValidationModal("Product ID missing. Please select a product again.");
         return;
     }
 
@@ -91,7 +91,7 @@ async function addToCart() {
     );
 
     if (isNaN(total_price)) {
-        alert("Invalid total price.");
+        showValidationModal("Invalid total price.");
         return;
     }
 
@@ -102,7 +102,7 @@ async function addToCart() {
         const cartData = await cartResponse.json();
 
         if (cartData.status !== "success") {
-            alert("Cart Error: " + cartData.message);
+            showValidationModal("Cart Error: " + cartData.message);
             return;
         }
 
@@ -124,14 +124,14 @@ async function addToCart() {
         const customizationData = await customizationResponse.json();
 
         if (customizationData.status !== "success") {
-            alert("Customization Error: " + customizationData.message);
+            showValidationModal("Customization Error: " + customizationData.message);
             return;
         }
 
         const customization_id = customizationData.customization_id;
 
         if (!customization_id) {
-            alert("Customization ID missing from server response.");
+            showValidationModal("Customization ID missing from server response.");
             return;
         }
 
@@ -151,7 +151,7 @@ async function addToCart() {
         const cartItemData = await cartItemResponse.json();
 
         if (cartItemData.status !== "success") {
-            alert("Cart Item Error: " + cartItemData.message);
+            showValidationModal("Cart Item Error: " + cartItemData.message);
             return;
         }
 
@@ -165,6 +165,6 @@ async function addToCart() {
 
     } catch (error) {
         console.error("FETCH ERROR:", error);
-        alert("Network or server error occurred.");
+        showValidationModal("Network or server error occurred.");
     }
 }
