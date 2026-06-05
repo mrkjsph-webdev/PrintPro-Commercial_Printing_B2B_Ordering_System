@@ -812,22 +812,7 @@
                 default: textureExtra = 0;
             }
 
-            let unitPrice = basePrice + gsmExtra + textureExtra;
-
-            if (qty >= 100) {
-                unitPrice *= 0.80;
-            }
-            else if (qty >= 50) {
-                unitPrice *= 0.85;
-            }
-            else if (qty >= 25) {
-                unitPrice *= 0.90;
-            }
-            else if (qty >= 10) {
-                unitPrice *= 0.95;
-            }
-
-            let total = unitPrice * qty;
+            let total = (basePrice + gsmExtra + textureExtra) * qty;
 
             document.getElementById("total_price").value =
                 isNaN(total) ? "₱0.00" : "₱" + total.toFixed(2);
@@ -918,6 +903,19 @@
     </script>
     <!-- ORDER SUMMARY -->
     <script>
+        // Discount tiers based on total quantity
+        function getDiscountRate(qty) {
+
+            if (qty > 100) return 0.20;
+            if (qty > 50) return 0.18;
+            if (qty > 25) return 0.15;
+            if (qty > 10) return 0.12;
+            if (qty > 5) return 0.10;
+            if (qty > 3) return 0.08;
+            if (qty > 1) return 0.05;
+
+            return 0;
+        }
 
         // Calculate and update the order summary based on selected items
         function updateOrderSummary() {
@@ -947,8 +945,9 @@
             });
 
             /* apply discount */
-            const discountAmount = 0;
-            const total = subtotal;
+            const discountRate = getDiscountRate(totalQty);
+            const discountAmount = subtotal * discountRate;
+            const total = subtotal - discountAmount;
 
             /* update table */
             const summaryRows =
