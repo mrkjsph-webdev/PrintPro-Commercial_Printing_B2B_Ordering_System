@@ -903,16 +903,13 @@
     </script>
     <!-- ORDER SUMMARY -->
     <script>
-        // Discount tiers based on total quantity
-        function getDiscountRate(qty) {
+        // Discount tiers based on copies of a product
+        function getDiscountRate(copies) {
 
-            if (qty > 100) return 0.20;
-            if (qty > 50) return 0.18;
-            if (qty > 25) return 0.15;
-            if (qty > 10) return 0.12;
-            if (qty > 5) return 0.10;
-            if (qty > 3) return 0.08;
-            if (qty > 1) return 0.05;
+            if (copies >= 100) return 0.20;
+            if (copies >= 50) return 0.15;
+            if (copies >= 25) return 0.10;
+            if (copies >= 10) return 0.05;
 
             return 0;
         }
@@ -923,37 +920,36 @@
             const checkedItems =
                 document.querySelectorAll("#cartItems input[type='checkbox']:checked");
 
-            let totalQty = 0;
+            let productQty = checkedItems.length;
             let subtotal = 0;
+            let discountAmount = 0;
 
             checkedItems.forEach(cb => {
 
                 const card = cb.closest(".card");
 
-                /* get price */
                 const priceText =
                     card.querySelector(".card-text").innerText.replace("₱", "");
 
-                const price = parseFloat(priceText);
+                const itemPrice = parseFloat(priceText);
 
-                /* quantity (default = 1 if not stored yet) */
-                const qtyInput = card.querySelector("input[type='number']");
-                const qty = qtyInput ? parseInt(qtyInput.value) : 1;
+                const copiesText =
+                    card.querySelector(".copies-value").innerText;
 
-                totalQty += qty;
-                subtotal += price * qty;
+                const copies =
+                    parseInt(copiesText.replace("Copies:", "").trim()) || 1;
+
+                subtotal += itemPrice;
+
+                discountAmount += itemPrice * getDiscountRate(copies);
             });
 
-            /* apply discount */
-            const discountRate = getDiscountRate(totalQty);
-            const discountAmount = subtotal * discountRate;
             const total = subtotal - discountAmount;
 
-            /* update table */
             const summaryRows =
                 document.querySelectorAll(".order-summary table b");
 
-            summaryRows[0].innerText = totalQty;
+            summaryRows[0].innerText = productQty;
             summaryRows[1].innerText = "₱" + subtotal.toFixed(2);
             summaryRows[2].innerText = "₱" + discountAmount.toFixed(2);
             summaryRows[3].innerText = "₱" + total.toFixed(2);
